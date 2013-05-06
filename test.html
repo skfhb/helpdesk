@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Document sans nom</title>
+</head>
+<script>
+//variables-------------------------------------------------------------
+div= new Object();
+coorT=0;
+coorL=0;
+index=1;
+//fonction pour la non selection du texte--------------------------------
+function ffalse(){return false;}
+function ftrue(){return true;}
+document.onselectstart = new Function ("return false");
+if(window.sidebar){
+	document.onmousedown = ffalse;
+	document.onclick = ftrue;
+}
+//selection d'une div + coordonnées-------------------------------------
+function selectImage(e){
+	div=this;
+	index++;
+	div.style.zIndex=index;
+	var y = (!document.all) ? e.clientY : event.y;
+	var x = (!document.all) ? e.clientX : event.x;
+	coorT = y - parseInt(div.offsetTop);
+	coorL = x - parseInt(div.offsetLeft);
+	document.onmousemove = move;
+}
+//fonctions de mouvement-------------------------------------------------
+function move(e){
+		var y = (!document.all) ? e.clientY : event.y;
+		var x = (!document.all) ? e.clientX : event.x;
+		div.style.top  = y - coorT + 'px';
+		div.style.left = x - coorL + 'px';
+}
+//stop mouvement---------------------------------------------------------
+function dragDropEnd(){
+	document.onmousemove = "";
+	div=null;
+}
+//fonction d'initiation des objets---------------------------------------
+function init(){
+	var  allGrafs=document.getElementsByTagName("div");
+	for(i=0;i<allGrafs.length;i++){
+		allGrafs[i].onmousedown = selectImage;
+	}
+	document.onmouseup = dragDropEnd;
+}
+//initiation des evenements de base-----------------------------
+window.onload = init;
+</script>
+<style type="text/css">
+.layer{
+	position:absolute;
+	left:237px;
+	top:112px;
+	width:239px;
+	height:220px;
+	z-index:1;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	-moz-box-shadow: 0px 10px 10px #000;
+	box-shadow: 0px 10px 10px #000;
+}
+#Layer1 {
+	background:#00FF00;
+	-webkit-transform:rotate(-15deg);
+	-moz-transform:rotate(-15deg);
+	transform:rotate(-15deg);
+}
+#Layer2 {
+	background:#FFCC00;
+	-webkit-transform:rotate(5deg);
+	-moz-transform:rotate(5deg);
+	transform:rotate(5deg);
+}
+#Layer3 {
+	background:#990000;
+	-webkit-transform:rotate(1deg);
+	-moz-transform:rotate(1deg);
+	transform:rotate(1deg);
+}
+</style>
+</head>
+<body> 
+    <div id="Layer1" class="layer">&nbsp;</div>
+    <div id="Layer2" class="layer">&nbsp;</div>
+    <div id="Layer3" class="layer">&nbsp;</div>
+</body>
+</html>

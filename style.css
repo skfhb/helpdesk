@@ -1,0 +1,312 @@
+/* 
+//-----------------------------------------------------------//
+//	Projet 		: Task Manager								 //
+//	Fichier 	: style.css 								 //
+//  Description : Gère le design de l'application			 //
+//	Auteur 		: Hervé Bordeau								 //
+// 	Date 		: 11/02/2013							     //
+//-----------------------------------------------------------//
+//Dernière modif le 11/02/2013 par HB
+	
+*/
+
+/* Éléments génériques */
+
+body
+{
+	background-image : url('resources/style/head-frame.png');
+	background-repeat : repeat-x;
+}
+
+/* IDs */
+
+#header
+{
+	position : absolute;
+	top : 0px;
+	left : 0px;
+	width : 248px;
+	height : 162px;
+	background-image : url('resources/style/head.png');
+	background-repeat : no-repeat;
+}
+
+#connectBox
+{
+	float : left;
+	position : absolute;
+	top : 170px;
+	left : 0px;
+	width : 177px;
+	height : 241px;
+	background-image : url('resources/style/connect-box.png');
+	background-repeat : no-repeat;
+	padding-top : 45px;
+	padding-left : 5px;
+	color : #FFFFFF;
+	font-family	: "Arial";
+}
+
+#connected
+{
+	float : left;
+	margin-left : 20px;
+}
+
+#menu
+{
+	float : left;
+	position : absolute;
+	top : 420px;
+	left : 0px;
+	background : url('resources/style/menu-back.png') repeat-y;
+	color : #FFFFFF;
+	font-family : "Arial";
+}
+
+#menuItems
+{
+	width : 70px;
+}
+
+#pageBody
+{
+	position : absolute;
+	top : 104px;
+	left : 220px;
+	font-family : "Arial";
+}
+
+#headerTask
+{
+	position : absolute;
+	width : 500px;
+	height : 70px;
+	border : 1px #0066D0 solid;
+	background-color : #0066D0;
+	color : #FFFFFF;
+	padding : 5px;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
+#idtask
+{
+	position : relative;
+	bottom : 5px;
+	margin-top : 20px;
+	margin-bottom : 20px;
+	text-align : center;
+	font-size : 1.5em;
+}
+
+#typtask
+{
+	position : relative;
+	bottom : 20px;
+	margin-top : 20px;
+	margin-bottom : 20px;
+	text-align : center;
+	font-size : 1.2em;
+}
+
+#contentTask
+{
+	position : relative;
+	top : 85px;
+	width : 500px;
+	margin-top : 25px;
+	padding : 5px;
+}
+
+#contentTask table
+{
+	border : 0px;
+}
+
+#contentTask td
+{
+	width : 250px;
+	height : 12px;
+	text-align : left;
+}
+
+#commenttask
+{
+	position : relative;
+	top : 88px;
+	width : 500px;
+	border : 1px #0066D0 solid;
+	background-color : #0066D0;
+	padding : 5px;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
+#finalDest
+{
+	border : 1px solid;
+	border-color : #0066D0;
+	background-color : #FFFFFF;
+	padding : 5px;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
+/* Classes */
+
+.ui-tooltip 
+{
+    font-size:12px;
+    z-index: 99;
+}
+
+.btn:hover
+{
+	cursor : pointer;
+}
+
+.comment 
+{
+	border : 1px #0066D0 solid;
+	background-color : #FFFFFF;
+	padding : 5px;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
+.PJs 
+{
+	width : 480px;
+}
+
+.PJ
+{
+	text-align : center;
+	width : 120px;
+	height : 60px;
+	float : left;
+}
+
+.PJ:hover
+{
+	cursor : pointer;
+}
+
+.sortablecontainer
+{
+	position : relative;
+	height : 100%;
+}
+
+.headertaskimpair
+{
+	display: table;  
+	position : relative;
+	float : left;
+	width : 80%;
+	border : 1px #AFCBE7 solid;
+	background-color : #AFCBE7;
+	padding : 5px;
+	text-align : center;
+	-webkit-border-radius : 40px 10px;
+	-moz-border-radius : 40px 10px;
+	border-radius : 40px 10px;
+}
+
+.headertaskhead
+{
+	display: table; 
+	position : relative;
+	float : left;
+	width : 80%;	
+	border : 1px #AFCBE7 solid;
+	background-color : #FFFFFF;
+	padding : 5px;
+	text-align : center;
+	-webkit-border-radius : 40px 10px;
+	-moz-border-radius : 40px 10px;
+	border-radius : 40px 10px;
+}
+
+.headertaskpair
+{
+	display: table; 
+	position : relative;
+	float : left;
+	width : 80%;	
+	border : 1px #AFCBE7 solid;
+	background-color : #FFFFFF;
+	padding : 5px;
+	text-align : center;
+	-webkit-border-radius : 40px 10px;
+	-moz-border-radius : 40px 10px;
+	border-radius : 40px 10px;
+}
+
+.headerelement
+{
+	float : left;
+	padding-left : 10px;
+	padding-right : 10px;
+}
+
+.headerelementmove
+{
+	float : left;
+	width : 16px;
+	margin-left : 15px; 
+	background-image:url("resources/style/move-header.png");
+	background-repeat : no-repeat;
+	background-size : 16px 16px;
+	-moz-user-select:none;
+    -webkit-user-select:none;
+}
+
+.headerelementmove:hover
+{
+	cursor : move;
+}
+
+.emptyFooter
+{
+	display: table; 
+	position : relative;
+	float : left;
+	width : 80%;	
+	padding : 5px;
+}
+
+.userDest
+{
+	color : #000000;
+	background-color : #FFFFFF;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.userDest:hover
+{
+	color : #000000;
+	background-color : #BBD9F8;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.selectedUserDest
+{
+	color : #FFFFFF;
+	background-color : #0066D0;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
