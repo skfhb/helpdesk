@@ -61,18 +61,6 @@
 	$partask = NULL;
 	$codsts = $_POST['selectstat'];
 	
-	echo $maxID.'<br />';
-	echo $lbltask.'<br />';
-	echo $duetask.'<br />';
-	echo $urgtask.'<br />';
-	echo $pubtask.'<br />';
-	echo $acttask.'<br />';
-	echo $dataskt.'<br />';
-	echo $codtypt.'<br />';
-	echo $codprio.'<br />';
-	echo $coduser.'<br />';
-	echo $partask.'<br />';
-	
 	//Insert en DB : TAMGTASK
 	$stmt = odbc_prepare($c, 'INSERT INTO TAMGTASK (CODTASK, LBLTASK, DUETASK, URGTASK, PUBTASK, ACTTASK, DATASKT, CODTYPT, CODPRIO, CODUSER, PARTASK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 	$res = odbc_execute($stmt, array($maxID, $lbltask, $duetask, $urgtask, $pubtask, $acttask, $dataskt, $codtypt, $codprio, $coduser, $partask));

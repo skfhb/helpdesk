@@ -101,12 +101,12 @@
 				<tr>
 					<td>
 						<?php
-						//Récup liste des types de tâche
+						//Récup liste des users
 						$users = execSQL($c, 'SELECT * FROM TAMGUSER ORDER BY NAMUSER');
 						
 						//Sur changement de valeur, charge les patchs liés à l'appli choisie
 						echo '<select id="selectDest" style="width:100px;">';
-						//Rempli le select
+						//Remplis le select
 						while (odbc_fetch_row($users))
 						{
 							echo '<option value="'.trim(odbc_result($users, 'CODUSER')).'">'.trim(odbc_result($users, 'NAMUSER')).'</option>';

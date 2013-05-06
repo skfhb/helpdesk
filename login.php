@@ -38,7 +38,7 @@
 		}
 		else
 		{
-			$sql = 'SELECT CODUSER, PWDUSER FROM TAMGUSER WHERE NAMUSER = \''.strtoupper(trim($_POST['login'])).'\'';
+			$sql = 'SELECT CODUSER, PWDUSER, ADMUSER FROM TAMGUSER WHERE NAMUSER = \''.strtoupper(trim($_POST['login'])).'\'';
 			$users = execSQL($c, $sql);
 			if (getNumRows($users) != 1)
 			{
@@ -49,6 +49,14 @@
 				if (trim(odbc_result($users, 'PWDUSER')) == trim(md5($pwd)))
 				{
 					$_SESSION['login'] = $_POST['login'];
+					if (odbc_result($users, 'ADMUSER') == '1')
+					{
+						$_SESSION['isAdm'] = true;
+					}
+					else
+					{
+						$_SESSION['isAdm'] = false;
+					}
 					returnAccept();
 				}
 				else
