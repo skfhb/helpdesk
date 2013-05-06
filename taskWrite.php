@@ -84,8 +84,7 @@
 	$stmt = odbc_prepare($c, '');
 	$res = odbc_execute($stmt, array());
 	//test git compare
-	//test 
-	//test
+	//test git compare 2nd branch
 	
 	
 	
