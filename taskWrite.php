@@ -83,7 +83,11 @@
 	//Insert en DB : TAMGDEST
 	$stmt = odbc_prepare($c, '');
 	$res = odbc_execute($stmt, array());
-	//Test git
+	//test git compare
+	//test 
+	//test
+	
+	
 	
 	//Fermeture connexion
 	closeConnection($c);
