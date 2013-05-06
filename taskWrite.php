@@ -81,10 +81,9 @@
 	$stmt = odbc_prepare($c, 'INSERT INTO TAMGMODF (CODTASK, CODUSER, TSTPMOD) VALUES (?, ?, CURRENT_TIMESTAMP)');
 	$res = odbc_execute($stmt, array($maxID, $coduser));
 	//Insert en DB : TAMGDEST
-	$stmt = odbc_prepare($c, '');
+	$stmt = odbc_prepare($c, 'INSERT INTO TAMGDEST (CODTASK, CODUSER) VALUES (?, ?)');
 	$res = odbc_execute($stmt, array());
-	//test git compare
-	//test git compare 2nd branch
+
 	
 	
 	
