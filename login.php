@@ -34,6 +34,7 @@
 		if ($_POST['login'] == 'endsession')
 		{
 			unset($_SESSION['login']);
+			unset($_SESSION['isAdm']);
 			returnOk();
 		}
 		else

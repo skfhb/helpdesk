@@ -175,20 +175,34 @@
 				}
 				echo '</td></tr>';
 			}
-			echo '<tr><td></td><td>';
+			echo '<tr><td>';
 			if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+			{
+				//Récup liste des users
+				$users = execSQL($c, 'SELECT * FROM DEVTAMG.TAMGUSER ORDER BY NAMUSER');
+					
+				echo '<select id="selectDest" style="width:100px;">';
+				//Remplis le select
+				while (odbc_fetch_row($users))
 				{
-					//Récup liste des users
-					$users = execSQL($c, 'SELECT * FROM DEVTAMG.TAMGUSER WHERE ADMUSER=1 ORDER BY NAMUSER');
-						
-					echo '<select id="selectAffc" style="width:100px;">';
-					//Remplis le select
-					while (odbc_fetch_row($users))
-					{
-						echo '<option value="'.trim(odbc_result($users, 'CODUSER')).'">'.trim(odbc_result($users, 'NAMUSER')).'</option>';
-					}
-					echo '</select>';
+					echo '<option value="'.trim(odbc_result($users, 'CODUSER')).'">'.trim(odbc_result($users, 'NAMUSER')).'</option>';
 				}
+				echo '</select>';
+			}
+			echo '</td><td>';
+			if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+			{
+				//Récup liste des users
+				$users = execSQL($c, 'SELECT * FROM DEVTAMG.TAMGUSER WHERE ADMUSER=1 ORDER BY NAMUSER');
+					
+				echo '<select id="selectAffc" style="width:100px;">';
+				//Remplis le select
+				while (odbc_fetch_row($users))
+				{
+					echo '<option value="'.trim(odbc_result($users, 'CODUSER')).'">'.trim(odbc_result($users, 'NAMUSER')).'</option>';
+				}
+				echo '</select>';
+			}
 			echo '</td></tr>';
 			while ($nbApp > 0)
 			{
