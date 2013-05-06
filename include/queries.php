@@ -363,5 +363,17 @@ header('Content-Type: text/html; charset=iso-8859-1');
 			document.getElementById('finalDest').style.backgroundColor = '#FF5353';
 			isTaskOk = false;
 		}
+		
+		if (isTaskOk)
+		{
+			setTimeout(function() { 
+				ajax('getMaxTaskId.php', 'a', displayCreatedTask);
+			}, 3000);
+		}
+	}
+	
+	function displayCreatedTask(id)
+	{
+		loadPage('dettask.php?id='+id)
 	}
 </script>

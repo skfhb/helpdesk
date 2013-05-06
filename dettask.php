@@ -8,6 +8,7 @@
 //---------------------------------------------------------------//
 //Dernière modif le 08/03/2013 par HB
 	
+	session_start();
 	header('Content-Type: text/html; charset=iso-8859-1');
 	//- la définition des constantes de l'ensemble de l'application
 	include("include/cst.php");
@@ -174,7 +175,35 @@
 				}
 				echo '</td></tr>';
 			}
-			echo '<tr><td></td><td></td></tr>';
+			echo '<tr><td>';
+			if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+			{
+				//Récup liste des users
+				$users = execSQL($c, 'SELECT * FROM DEVTAMG.TAMGUSER ORDER BY NAMUSER');
+					
+				echo '<select id="selectDest" style="width:100px;">';
+				//Remplis le select
+				while (odbc_fetch_row($users))
+				{
+					echo '<option value="'.trim(odbc_result($users, 'CODUSER')).'">'.trim(odbc_result($users, 'NAMUSER')).'</option>';
+				}
+				echo '</select>';
+			}
+			echo '</td><td>';
+			if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+			{
+				//Récup liste des users
+				$users = execSQL($c, 'SELECT * FROM DEVTAMG.TAMGUSER WHERE ADMUSER=1 ORDER BY NAMUSER');
+					
+				echo '<select id="selectAffc" style="width:100px;">';
+				//Remplis le select
+				while (odbc_fetch_row($users))
+				{
+					echo '<option value="'.trim(odbc_result($users, 'CODUSER')).'">'.trim(odbc_result($users, 'NAMUSER')).'</option>';
+				}
+				echo '</select>';
+			}
+			echo '</td></tr>';
 			while ($nbApp > 0)
 			{
 				$toWrite = '<tr><td style="text-align:left;">'._TXT_TASK_APPLI.'<b>'.$app[$nbApp-1]['name'].'</b></td>';
