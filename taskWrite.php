@@ -50,8 +50,10 @@
 	$acttask = '1';
 	$dataskt = date('d.m.Y');
 	$codtypt = $_POST['selecttypt'];
-	$codprio = 3;
+	$codprio = 2;
 	$getUser = execSQL($c, 'SELECT * FROM TAMGUSER WHERE NAMUSER LIKE \''.$_SESSION['login'].'%\'');
+	$usersDest = $_POST['usersDestStringList'];
+	$usersDest = explode(';', $usersDest);
 	while (odbc_fetch_row($getUser))
 	{
 		$coduser = odbc_result($getUser, 'CODUSER');
@@ -81,9 +83,11 @@
 	$stmt = odbc_prepare($c, 'INSERT INTO TAMGMODF (CODTASK, CODUSER, TSTPMOD) VALUES (?, ?, CURRENT_TIMESTAMP)');
 	$res = odbc_execute($stmt, array($maxID, $coduser));
 	//Insert en DB : TAMGDEST
-	$stmt = odbc_prepare($c, 'INSERT INTO TAMGDEST (CODTASK, CODUSER) VALUES (?, ?)');
-	$res = odbc_execute($stmt, array());
-
+	foreach ($usersDest as $user)
+	{
+		$stmt = odbc_prepare($c, 'INSERT INTO TAMGDEST (CODTASK, CODUSER) VALUES (?, ?)');
+		$res = odbc_execute($stmt, array($maxID, $user));
+	}
 	
 	
 	

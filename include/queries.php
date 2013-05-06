@@ -283,11 +283,11 @@ header('Content-Type: text/html; charset=iso-8859-1');
 		var name = document.getElementById('selectDest').options[document.getElementById('selectDest').selectedIndex].innerText;
 		if (document.getElementById('finalDest').innerText == '')
 		{
-			document.getElementById('finalDest').innerHTML = '<div id="user'+ trim(toAdd) + '" class="userDest" onclick="focusUserDest(this);">' + trim(name) + '</div>';
+			document.getElementById('finalDest').innerHTML = '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuser" value="'+trim(toAdd)+'" /><div class="userDest" onclick="focusUserDest(this);">' + trim(name) + '</div>';
 		}
 		else
 		{
-			document.getElementById('finalDest').innerHTML += '<div id="user'+ trim(toAdd) + '" class="userDest" onclick="focusUserDest(this);">' + trim(name) + '</div>';
+			document.getElementById('finalDest').innerHTML += '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuser" value="'+trim(toAdd)+'" /><div class="userDest" onclick="focusUserDest(this);">' + trim(name) + '</div>';
 		}
 		var dests = document.getElementById('selectDest').options;
 		for (var i = 0 ; i < dests.length ; i++)
@@ -298,6 +298,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 			}
 		}
 		document.getElementById('finalDest').style.backgroundColor = '#FFFFFF';
+		updateDestUsers();
 	}
 	
 	function removeDest()
@@ -319,6 +320,19 @@ header('Content-Type: text/html; charset=iso-8859-1');
 			}
 		}
 		document.getElementById('finalDest').removeChild(toRemove[0]);
+		updateDestUsers();
+	}
+	
+	function updateDestUsers()
+	{
+		var dests = document.getElementsByClassName('hiddenuser');
+		var str = "";
+		for (var i = 0 ; i < dests.length ; i++)
+		{
+			str = str + dests[i].value + ';';
+		}
+		str = str.substring(0, str.length-1);
+		document.getElementById('usersDestStringList').value = str;
 	}
 	
 	function focusUserDest(u)

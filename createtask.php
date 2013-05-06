@@ -125,6 +125,7 @@
 			</table>
 			<br />
 			<br />
+			<input type="hidden" id="usersDestStringList" name="usersDestStringList" value="" />
 			<input type="submit" value="Créer la tâche" style="width:100%;" onclick="validNewTask();"/>
 		</form>
 		<iframe style="height:100px;border:0px;" name="taskWrite" seamless></iframe>
