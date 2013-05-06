@@ -80,6 +80,10 @@
 	//Insert en DB : TAMGMODF
 	$stmt = odbc_prepare($c, 'INSERT INTO TAMGMODF (CODTASK, CODUSER, TSTPMOD) VALUES (?, ?, CURRENT_TIMESTAMP)');
 	$res = odbc_execute($stmt, array($maxID, $coduser));
+	//Insert en DB : TAMGDEST
+	$stmt = odbc_prepare($c, '');
+	$res = odbc_execute($stmt, array());
+	//Test git
 	
 	//Fermeture connexion
 	closeConnection($c);
