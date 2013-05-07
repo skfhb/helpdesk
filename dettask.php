@@ -234,6 +234,14 @@
 			echo '<br /><br />';			
 		?>
 	</div>
+	<?php
+		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+		{
+			echo '<div id="deletetask" onclick="deleteTask('.$task_ID.')">';
+			echo 'Désactiver cette tâche';
+			echo '</div>';
+		}
+	?>
 	<div id="commenttask">
 		<?php			
 			//Récup de la liste des commentaires textes

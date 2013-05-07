@@ -23,7 +23,7 @@
 	
 	//if (isset($_SESSION['login']))
 	//{
-		$sqltask = 'SELECT CODTASK, LBLTASK, URGTASK, CODTYPT, DATASKT FROM TAMGTASK';
+		$sqltask = 'SELECT CODTASK, LBLTASK, URGTASK, CODTYPT, DATASKT FROM TAMGTASK WHERE ACTTASK != 0';
 		$tasks = execSQL($c, $sqltask);
 		$parite = 'impair';
 		echo '<div class="headertaskhead"><div class="headerelement" style="width:32px;">&nbsp;</div><div class="headerelement" style="width:100px;"><b>Code tâche</b></div><div class="headerelement" style="width:50px;"><b>Urgent</b></div><div class="headerelement" style="width:150px;"><b>Type</b></div><div class="headerelement" style="width:75px;"><b>Statut</b></div><div class="headerelement"><b>Intitulé tâche</b></div></div>';
