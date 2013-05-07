@@ -13,23 +13,24 @@ header('Content-Type: text/html; charset=iso-8859-1');
 <script>
 
 	//----------------GLOBAL-------------------
+	//Connecte un utilisateur
 	function connect()
 	{
 		var login = document.getElementById('loginConnect').value;
 		var pwd = document.getElementById('pwdConnect').value;
 		ajax('login.php', '&login='+login+'&pwd='+pwd, setConnected);
 	}
-	
+	//Déconnecte un utilisateur
 	function disconnect()
 	{
 		ajax('login.php', '&login=endsession&pwd=null', setConnected);
 	}
-	
+	//Fonction pour AJAX, modifie l'affichage du bloc de connexion
 	function setConnected(content)
 	{
 		document.getElementById('connectBox').innerHTML = content;
 	}
-	
+	//Gère la touche entrée sur le formulaire de connexion
 	function validateIfNeeded(keycode, fct)
 	{
 		if (keyCode == 13)
@@ -39,8 +40,6 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	}
 
 	//----------------PATCHS-------------------
-
-
 	//Refresh affichage des patchs d'après DB
 	function loadPatchs()
 	{
@@ -79,8 +78,6 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	
 	
 	//----------------APPLIS-------------------
-
-
 	//Refresh affichage des applis d'après DB
 	function loadApplis()
 	{
@@ -115,9 +112,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	}
 	
 	
-	//----------------STATUTS-------------------
-	
-	
+	//----------------STATUTS-------------------	
 	//Refresh affichage des statuts d'après DB
 	function loadStatuts()
 	{
@@ -148,8 +143,6 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	}
 	
 	//----------------PRIOS-------------------
-
-
 	//Refresh affichage des prios d'après DB
 	function loadPrios()
 	{
@@ -184,7 +177,6 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	}
 	
 	//----------------TYPES DE TÂCHES-------------------
-	
 	//Refresh affichage des types de tâche d'après DB
 	function loadTypts()
 	{
@@ -219,7 +211,6 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	}
 	
 	//----------------TYPES DE COMMENTAIRE-------------------
-	
 	//Refresh affichage des types de commentaire d'après DB
 	function loadTypcs()
 	{
@@ -270,6 +261,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	}
 	
 	//----------------TÉLÉCHARGEMENTS-------------------
+	//Lance l'ouverture de la pièce jointe dans un nouvel onglet (télécharge si pas lisible par navigateur)
 	function download(url)
 	{
 		window.open(url); 
@@ -277,6 +269,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	}
 	
 	//---------------CRÉATION TÂCHE---------------------
+	//Gère l'ajout d'un destinataire à la tâche créée
 	function addDest()
 	{
 		var toAdd = document.getElementById('selectDest').options[document.getElementById('selectDest').selectedIndex].value;
@@ -300,7 +293,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 		document.getElementById('finalDest').style.backgroundColor = '#FFFFFF';
 		updateDestUsers();
 	}
-	
+	//Gère la suppression d'un destinataire à la tâche créée
 	function removeDest()
 	{
 		var toRemove = document.getElementsByClassName('selectedUserDest');
@@ -322,7 +315,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 		document.getElementById('finalDest').removeChild(toRemove[0]);
 		updateDestUsers();
 	}
-	
+	//Remplit le champ de type hidden pour traitement des destinataires en DB
 	function updateDestUsers()
 	{
 		var dests = document.getElementsByClassName('hiddenuser');
@@ -334,7 +327,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 		str = str.substring(0, str.length-1);
 		document.getElementById('usersDestStringList').value = str;
 	}
-	
+	//Gère l'affichage de sélection d'un utilisateur dans la liste des destinataires
 	function focusUserDest(u)
 	{
 		u.className = 'selectedUserDest';
@@ -347,7 +340,7 @@ header('Content-Type: text/html; charset=iso-8859-1');
 			}
 		}
 	}
-	
+	//Enregistre la tâche en DB
 	function validNewTask()
 	{
 		var isTaskOk = true;
@@ -371,9 +364,26 @@ header('Content-Type: text/html; charset=iso-8859-1');
 			}, 3000);
 		}
 	}
-	
+	//Après création, redirige vers la dernière tâche créée
 	function displayCreatedTask(id)
 	{
 		loadPage('dettask.php?id='+id)
+	}
+	
+	//---------------DETAIL TÂCHE---------------------
+	//Gère la suppression d'une tâche
+	function deleteTask(i)
+	{
+		if (confirm("Vous êtes sur le point de désactiver une tâche définitivement. Êtes-vous sûr de vouloir continuer ?"))
+		{
+			ajax('deletetask.php', 'task='+i, redirectAfterDelete);
+		}
+	}
+	
+	//Fonction pour AJAX redirigeant sur listtask après del d'une tâche
+	function redirectAfterDelete(parm)
+	{
+		//Paramètre reçu toujours vide
+		loadPage('listtask.php')
 	}
 </script>

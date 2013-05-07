@@ -1,13 +1,12 @@
 <?php
 //--------------------------------------------------------------------------//
 //	Projet 		: Task Manager								  				//
-//	Fichier 	: getMaxTaskId.php 							  				//
-//  Description : Page utilisée pour récup dernier ID de tamgtask			//
+//	Fichier 	: deletetask.php 							  				//
+//  Description : Page utilisée pour désactiver une tâche 					//
 //	Auteur 		: Hervé Bordeau								  				//
-// 	Date 		: 06/05/2013							      				//
+// 	Date 		: 07/05/2013							      				//
 //--------------------------------------------------------------------------//
 //Dernière modif le 07/05/2013 par HB
-
 
 	//- la définition des constantes de l'ensemble de l'application
 	include("include/cst.php");
@@ -17,14 +16,12 @@
 	//Ouverture connexion à la DB
 	$c = openConnection();
 		
-	//Récup maxID
-	$getMaxID = execSQL($c, 'SELECT MAX(CODTASK) FROM TAMGTASK');
-	while (odbc_fetch_row($getMaxID))
+	//Désactive tâche
+	if (isset($_POST['task']) && $_POST['task'] != '')
 	{
-		$maxID = odbc_result($getMaxID, 1);
+		$stmt = odbc_prepare($c, 'UPDATE DEVTAMG.TAMGTASK SET ACTTASK = 0 WHERE CODTASK = ?');
+		$res = odbc_execute($stmt, array($_POST['task']));
 	}
-	
-	echo $maxID;
 	
 	//Fermeture connexion
 	closeConnection($c);
