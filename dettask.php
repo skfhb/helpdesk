@@ -18,6 +18,8 @@
 	include("include/tools.php");
 	//- la classe de gestion des commentaires
 	require "include/classComment.php";
+	//- la gestion du "clickout"
+	include("include/clickout.php");
 	
 	//Ouverture connexion à la DB
 	$c = openConnection();	
@@ -141,8 +143,17 @@
 		<div id="idtask">
 			<?php echo 'Tâche n°'.$task_ID; ?>
 		</div>
-		<div id="typtask">
-			<?php echo $lblTypt; ?>
+		<?php 
+			if (isset($_SESSION['isAdm']) && $_POST['isAdm'])
+			{
+				echo '<div id="typtask">';
+			}
+			else
+			{
+				echo '<div id="typtask">';
+			}
+			echo $lblTypt; 
+		?>
 		</div>
 	</div>
 	<div id="contentTask">
