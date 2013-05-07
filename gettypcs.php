@@ -8,17 +8,15 @@
 //------------------------------------------------------------------------------//
 //Dernière modif le 15/02/2013 par HB
 	
-	header('Content-Type: text/html; charset=iso-8859-1');
 	
 	//Si on utilise pas la page en include
 	if (isset($_POST['option']) && $_POST['option'] != "")
 	{
+		header('Content-Type: text/html; charset=iso-8859-1');
 		//- la définition des constantes de l'ensemble de l'typccation
 		include("include/cst.php");
 		//- la gestion de la couche d'accès aux données
 		include("include/dal.php");
-		//- la gestion de la couche AJAX
-		include("include/ajax.php");
 	}
 	
 	//Ouverture connexion à la DB
@@ -84,13 +82,15 @@
 		
 		//Compte le nombre de lignes
 		$nbComt = getNumRows($comtLinkedToDeletedTypc);
+		$nbComtComt = $nbComt;
 	
 		//Récup liste des commentaires du type de commentaire à supprimer
 		$sql = 'SELECT * FROM TAMGFILE WHERE CODTYPC = '.$_POST['id'];
-		$comtLinkedToDeletedTypc = execSQL($c, $sql);
+		$filesLinkedToDeletedTypc = execSQL($c, $sql);
 		
 		//Compte le nombre de lignes
-		$nbComt += getNumRows($comtLinkedToDeletedTypc);
+		$nbComt += getNumRows($filesLinkedToDeletedTypc);
+		$nbComtFile = $nbComt - $nbComtComt;
 	
 		//Si aucune tâche
 		if ($nbComt == 0)
@@ -103,13 +103,40 @@
 		else
 		{
 			//Avertir l'utilisateur et affiche les n° de tâches liées
-			echo 'Impossible de supprimer ce type de commentaire, des commentaires y sont liées : ';
-			echo '<br />';
-			while (odbc_fetch_row($comtLinkedToDeletedTypc))
+			echo 'Impossible de supprimer ce type de commentaire, des commentaires y sont liés : ';
+			if ($nbComtComt != 0 && $nbComtFile == 0)
 			{
 				echo 'Tâche '.odbc_result($comtLinkedToDeletedTypc, 'CODTASK');
-				echo '<br />';
+				while (odbc_fetch_row($comtLinkedToDeletedTypc))
+				{
+					echo ', ';
+					echo 'Tâche '.odbc_result($comtLinkedToDeletedTypc, 'CODTASK');
+				}
 			}
+			elseif ($nbComtComt == 0 && $nbComtFile != 0)
+			{
+				echo 'Tâche '.odbc_result($filesLinkedToDeletedTypc, 'CODTASK');
+				while (odbc_fetch_row($filesLinkedToDeletedTypc))
+				{
+					echo ', ';
+					echo 'Tâche '.odbc_result($filesLinkedToDeletedTypc, 'CODTASK');
+				}
+			}
+			else
+			{
+				echo 'Tâche '.odbc_result($comtLinkedToDeletedTypc, 'CODTASK');
+				while (odbc_fetch_row($comtLinkedToDeletedTypc))
+				{
+					echo ', ';
+					echo 'Tâche '.odbc_result($comtLinkedToDeletedTypc, 'CODTASK');
+				}
+				while (odbc_fetch_row($filesLinkedToDeletedTypc))
+				{
+					echo ', ';
+					echo 'Tâche '.odbc_result($filesLinkedToDeletedTypc, 'CODTASK');
+				}
+			}
+			
 		}
 	}
 	

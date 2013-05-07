@@ -8,17 +8,15 @@
 //----------------------------------------------------------------------//
 //Dernière modif le 15/02/2013 par HB
 	
-	header('Content-Type: text/html; charset=iso-8859-1');
 	
 	//Si on utilise pas la page en include
 	if (isset($_POST['option']) && $_POST['option'] != "")
 	{
+		header('Content-Type: text/html; charset=iso-8859-1');
 		//- la définition des constantes de l'ensemble de l'typtcation
 		include("include/cst.php");
 		//- la gestion de la couche d'accès aux données
 		include("include/dal.php");
-		//- la gestion de la couche AJAX
-		include("include/ajax.php");
 	}
 	
 	//Ouverture connexion à la DB
@@ -89,11 +87,11 @@
 		{
 			//Avertir l'utilisateur et affiche les n° de tâches liées
 			echo 'Impossible de supprimer ce type de tâche, des tâches y sont liées : ';
-			echo '<br />';
+			echo 'Tâche '.odbc_result($tasksLinkedToDeletedTypt, 'CODTASK');
 			while (odbc_fetch_row($tasksLinkedToDeletedTypt))
 			{
+				echo ', ';
 				echo 'Tâche '.odbc_result($tasksLinkedToDeletedTypt, 'CODTASK');
-				echo '<br />';
 			}
 		}
 	}

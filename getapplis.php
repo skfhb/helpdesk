@@ -8,17 +8,14 @@
 //------------------------------------------------------------//
 //Dernière modif le 12/02/2013 par HB
 	
-	header('Content-Type: text/html; charset=iso-8859-1');
-	
 	//Si on utilise pas la page en include
 	if (isset($_POST['option']) && $_POST['option'] != "")
 	{
+		header('Content-Type: text/html; charset=iso-8859-1');
 		//- la définition des constantes de l'ensemble de l'application
 		include("include/cst.php");
 		//- la gestion de la couche d'accès aux données
 		include("include/dal.php");
-		//- la gestion de la couche AJAX
-		include("include/ajax.php");
 	}
 	
 	//Ouverture connexion à la DB
@@ -95,21 +92,22 @@
 			if ($nbTasks != 0)
 			{
 				echo 'Impossible de supprimer cette application, des tâches y sont liées : ';
-				echo '<br />';
+				echo 'Tâche '.odbc_result($tasksLinkedToDeletedAppli, 'CODTASK');
 				while (odbc_fetch_row($tasksLinkedToDeletedAppli))
 				{
+					echo ', ';
 					echo 'Tâche '.odbc_result($tasksLinkedToDeletedAppli, 'CODTASK');
-					echo '<br />';
 				}
 			}
+			echo '                                                                      ';
 			if ($nbPatchs != 0)
 			{
 				echo 'Impossible de supprimer cette application, des patchs y sont liés : ';
-				echo '<br />';
+				echo 'Patch '.odbc_result($patchsLinkedToDeletedAppli, 'CODPATC');
 				while (odbc_fetch_row($patchsLinkedToDeletedAppli))
 				{
+					echo ', ';
 					echo 'Patch '.odbc_result($patchsLinkedToDeletedAppli, 'CODPATC');
-					echo '<br />';
 				}
 			}
 		}

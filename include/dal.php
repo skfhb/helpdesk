@@ -18,7 +18,6 @@
 		// int      getNumRows($resource);
 	//Fin de liste des fonctions
 	
-	header('Content-Type: text/html; charset=iso-8859-1');
 	
 	//Prépare la chaîne de connexion pour l'accès à la DB
 	function setConnectionString()

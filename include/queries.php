@@ -8,7 +8,6 @@
 //------------------------------------------------------------//
 //Dernière modif le 12/02/2013 par HB
 
-header('Content-Type: text/html; charset=iso-8859-1');
 ?>
 <script>
 
@@ -72,10 +71,21 @@ header('Content-Type: text/html; charset=iso-8859-1');
 		if (confirm("Êtes-vous sûr de vouloir supprimer le patch ?"))
 		{
 			var selectedAppli = document.getElementById('selectAppli').options[document.getElementById('selectAppli').selectedIndex].value;
-			ajax('getpatchs.php', '&option=delete&appli='+selectedAppli+'&id='+i, loadPatchs);
+			ajax('getpatchs.php', '&option=delete&appli='+selectedAppli+'&id='+i, manageDelPatchs);
 		}
 	}
-	
+	//Traite le retour de la suppression
+	function manageDelPatchs(parm)
+	{	
+		if (parm == '')
+		{
+			loadPatchs();
+		}
+		else
+		{
+			alert(parm);
+		}
+	}
 	
 	//----------------APPLIS-------------------
 	//Refresh affichage des applis d'après DB
@@ -107,10 +117,21 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	{
 		if (confirm("Êtes-vous sûr de vouloir supprimer cette application ?"))
 		{
-			ajax('getapplis.php', '&option=delete&id='+i, loadApplis);
+			ajax('getapplis.php', '&option=delete&id='+i, manageDelApplis);
 		}
 	}
-	
+	//Traite le retour de la suppression
+	function manageDelApplis(parm)
+	{	
+		if (parm == '')
+		{
+			loadApplis();
+		}
+		else
+		{
+			alert(parm);
+		}
+	}
 	
 	//----------------STATUTS-------------------	
 	//Refresh affichage des statuts d'après DB
@@ -138,10 +159,21 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	{
 		if (confirm("Êtes-vous sûr de vouloir supprimer le statut ?"))
 		{
-			ajax('getstatuts.php', '&option=delete&id='+i, loadStatuts);
+			ajax('getstatuts.php', '&option=delete&id='+i, manageDelStatuts);
 		}
 	}
-	
+	//Traite le retour de la suppression
+	function manageDelStatuts(parm)
+	{	
+		if (parm == '')
+		{
+			loadStatuts();
+		}
+		else
+		{
+			alert(parm);
+		}
+	}
 	//----------------PRIOS-------------------
 	//Refresh affichage des prios d'après DB
 	function loadPrios()
@@ -172,10 +204,21 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	{
 		if (confirm("Êtes-vous sûr de vouloir supprimer ce degré de priorité ?"))
 		{
-			ajax('getprios.php', '&option=delete&id='+i, loadPrios);
+			ajax('getprios.php', '&option=delete&id='+i, manageDelPrio);
 		}
 	}
-	
+	//Traite le retour de la suppression
+	function manageDelPrio(parm)
+	{	
+		if (parm == '')
+		{
+			loadPrios();
+		}
+		else
+		{
+			alert(parm);
+		}
+	}
 	//----------------TYPES DE TÂCHES-------------------
 	//Refresh affichage des types de tâche d'après DB
 	function loadTypts()
@@ -206,7 +249,19 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	{
 		if (confirm("Êtes-vous sûr de vouloir supprimer ce type de tâche ?"))
 		{
-			ajax('gettypts.php', '&option=delete&id='+i, loadTypts);
+			ajax('gettypts.php', '&option=delete&id='+i, manageDelTypt);
+		}
+	}
+	//Traite le retour de la suppression
+	function manageDelTypt(parm)
+	{	
+		if (parm == '')
+		{
+			loadTypts();
+		}
+		else
+		{
+			alert(parm);
 		}
 	}
 	
@@ -256,10 +311,21 @@ header('Content-Type: text/html; charset=iso-8859-1');
 	{
 		if (confirm("Êtes-vous sûr de vouloir supprimer ce type de commentaire ?"))
 		{
-			ajax('gettypcs.php', '&option=delete&id='+i, loadTypcs);
+			ajax('gettypcs.php', '&option=delete&id='+i, manageDelTypc);
 		}
 	}
-	
+	//Traite le retour de la suppression
+	function manageDelTypc(parm)
+	{	
+		if (parm == '')
+		{
+			loadTypcs();
+		}
+		else
+		{
+			alert(parm);
+		}
+	}
 	//----------------TÉLÉCHARGEMENTS-------------------
 	//Lance l'ouverture de la pièce jointe dans un nouvel onglet (télécharge si pas lisible par navigateur)
 	function download(url)
