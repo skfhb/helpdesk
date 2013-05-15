@@ -429,6 +429,10 @@
 				ajax('getMaxTaskId.php', 'a', displayCreatedTask);
 			}, 3000);
 		}
+		else
+		{
+			return false;
+		}
 	}
 	//Après création, redirige vers la dernière tâche créée
 	function displayCreatedTask(id)
