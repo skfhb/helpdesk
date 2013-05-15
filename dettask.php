@@ -144,14 +144,14 @@
 			<?php echo 'Tâche n°'.$task_ID; ?>
 		</div>
 		<?php 
-			if (isset($_SESSION['isAdm']) && $_POST['isAdm'])
-			{
+			//if (isset($_SESSION['isAdm']) && $_POST['isAdm'])
+			//{
 				echo '<div id="typtask">';
-			}
-			else
-			{
-				echo '<div id="typtask">';
-			}
+		//	}
+			//else
+			//{
+			//	echo '<div id="typtask">';
+			//}
 			echo $lblTypt; 
 		?>
 		</div>
