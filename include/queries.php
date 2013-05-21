@@ -458,6 +458,14 @@
 			alert(parm);
 		}
 	}
+	function changePubTypc(id)
+	{
+		ajax('gettypcs.php', '&option=changepubtypc&id='+id, reloadTypcs);
+	}
+	function reloadTypcs(content)
+	{
+		loadTypcs();
+	}
 	//----------------TÉLÉCHARGEMENTS-------------------
 	//Lance l'ouverture de la pièce jointe dans un nouvel onglet (télécharge si pas lisible par navigateur)
 	function download(url)

@@ -7,7 +7,10 @@
 // 	Date 		: 15/02/2013							      					//
 //------------------------------------------------------------------------------//
 //Dernière modif le 15/02/2013 par HB
-	
+if(session_id() == '')
+{
+	session_start();
+}
 	
 	//Si on utilise pas la page en include
 	if (isset($_POST['option']) && $_POST['option'] != "")
@@ -39,32 +42,31 @@
 			echo '<div class="typcLine" id="'.odbc_result($typcs, 'CODTYPC').'">';
 			echo '<input type="button" value="Supprimer" onclick="delTypc('.odbc_result($typcs, 'CODTYPC').')" />';
 			echo '<b>'.odbc_result($typcs, 'LBLTYPC').'</b>';
-			//Si non-admin, checkbox disabled
-			if (empty($_SESSION['isAdm']) || !$_SESSION['isAdm'])
+			//Si admin, checkbox non-disabled
+			if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 			{
 				//Si type de commentaire public, alors afficher checkbox cochée
 				if (odbc_result($typcs, 'PUBTYPC') == 1)
 				{
-					echo '<input type="checkbox" value="Public" disabled="disabled" />Public';
+					echo '<input type="checkbox" value="Public" onclick="changePubTypc('.odbc_result($typcs, 'CODTYPC').');" />Public';
 				}
 				//Sinon l'afficher décochée
 				else
 				{
-					echo '<input type="checkbox" value="Public" disabled="disabled" checked />Privé';
+					echo '<input type="checkbox" value="Public" onclick="changePubTypc('.odbc_result($typcs, 'CODTYPC').');" checked />Privé';
 				}
 			}
-			//Sinon, si admin, afficher checkbox modifiables, avec sur click changement du statut en DB
-			else
+			else	//Sinon, checkbox disabled
 			{
 				//Si type de commentaire public, alors afficher checkbox cochée
 				if (odbc_result($typcs, 'PUBTYPC') == 1)
 				{
-					echo '<input type="checkbox" value="Public" />Public';
+					echo '<input type="checkbox" value="Public"  disabled="disabled" />Public';
 				}
 				//Sinon l'afficher décochée
 				else
 				{
-					echo '<input type="checkbox" value="Public" checked />Privé';
+					echo '<input type="checkbox" value="Public"  disabled="disabled" checked />Privé';
 				}
 			}
 			echo '</div>';
@@ -157,7 +159,25 @@
 			
 		}
 	}
-	
+	elseif (isset($_POST['option']) && $_POST['option'] == 'changepubtypc')
+	{		
+		//Récup statut public du typc concerné
+		$sql = 'SELECT PUBTYPC FROM TAMGTYPC WHERE CODTYPC = '.$_POST['id'];
+		$statutPubTypc = execSQL($c, $sql);
+		while (odbc_fetch_row($statutPubTypc))
+		{
+			if (odbc_result($statutPubTypc, 'PUBTYPC') == 1)
+			{
+				$stmt = odbc_prepare($c, 'UPDATE TAMGTYPC SET PUBTYPC = 0 WHERE CODTYPC = ?');
+				$res = odbc_execute($stmt, array($_POST['id']));
+			}
+			else
+			{
+				$stmt = odbc_prepare($c, 'UPDATE TAMGTYPC SET PUBTYPC = 1 WHERE CODTYPC = ?');
+				$res = odbc_execute($stmt, array($_POST['id']));
+			}
+		}
+	}
 	//Fermeture connexion
 	closeConnection($c);
 ?>
