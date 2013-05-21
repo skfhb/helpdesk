@@ -17,7 +17,10 @@
 	{
 		var login = document.getElementById('loginConnect').value;
 		var pwd = document.getElementById('pwdConnect').value;
-		ajax('login.php', '&login='+login+'&pwd='+pwd, setConnected);
+		if (login != '')
+		{
+			ajax('login.php', '&login='+login+'&pwd='+pwd, setConnected);
+		}
 	}
 	//Déconnecte un utilisateur
 	function disconnect()
@@ -28,6 +31,7 @@
 	function setConnected(content)
 	{
 		document.getElementById('connectBox').innerHTML = content;
+		$("#menu").load("menu.php");
 	}
 	//Gère la touche entrée sur le formulaire de connexion
 	function validateIfNeeded(keycode, fct)
@@ -37,7 +41,134 @@
 			fct();
 		}
 	}
-
+	//----------------USERS--------------------
+	//Change le mot de passe d'un utilisateur
+	function changePassword()
+	{
+		if (document.getElementById('newpwd').value == document.getElementById('cnfpwd').value)
+		{
+			ajax('chgpwd.php', '&oldpwd='+document.getElementById('oldpwd').value+'&newpwd='+document.getElementById('newpwd').value, displayResultPwd);
+		}
+		else
+		{
+			document.getElementById('resultChgPwd').innerHTML = 'Nouveaux mots de passe non-identiques';
+		}
+	}
+	//Affiche le résultat d'une requête de changement de mot de passe
+	function displayResultPwd(content)
+	{
+		document.getElementById('resultChgPwd').innerHTML = content;
+	}
+	//Envoie une requête de changement d'adresse
+	function changeAddr(id)
+	{
+		ajax('usermgr.php', '&option=setadr&id='+id+'&attr='+document.getElementById(id+'adr').value, displayChangedAddr);
+	}
+	//Gère l'affichage après changement d'adresse
+	function displayChangedAddr(content)
+	{
+		if (content == 'adrok')
+		{
+			alert('Changement d\'adresse effectué avec succès');
+		}
+		else
+		{
+			alert('Une erreur est survenue');
+		}
+	}
+	//Envoie une requête de réinitialisation de mot de passe
+	function reinitPwd(id)
+	{
+		ajax('usermgr.php', '&option=setpwd&id='+id, displayReinitPwd);
+	}
+	//Gère l'affichage après réinitialisation de mot de passe
+	function displayReinitPwd(content)
+	{
+		if (content == 'pwdok')
+		{
+			alert('Réinitialisation de mot de passe effectuée avec succès');
+		}
+		else
+		{
+			alert('Une erreur est survenue');
+		}
+	}
+	//Envoie une requête de grant ou de revoke des privilèges
+	function grantOrRevoke(id, adm)
+	{
+		ajax('usermgr.php', '&option=setadm&id='+id+'&attr='+adm, displayGrantOrRevoke);
+	}
+	//Gère l'affichage après réinitialisation de mot de passe
+	function displayGrantOrRevoke(content)
+	{
+		if (content == 'admok')
+		{
+			alert('Modification des privilèges effectuée avec succès');
+			$("#pageBody").load("usergst.php");
+		}
+		else
+		{
+			alert('Une erreur est survenue');
+		}
+	}
+	//Envoie une requête d'ajout d'utilisateur
+	function addUsr()
+	{
+		if ( (document.getElementById('newUserID').value == '') || (document.getElementById('newUserName').value == '') )
+		{
+			alert('Merci de remplir l\'ID et le nom souhaité pour ajouter un utilisateur');
+		}
+		else
+		{
+			ajax('usermgr.php', '&option=addusr&id='+document.getElementById('newUserID').value+'&name='+document.getElementById('newUserName').value, displayAddUser);
+		}
+	}
+	//Gère l'affichage après ajout d'un utilisateur
+	function displayAddUser(content)
+	{
+		if (content == 'addok')
+		{
+			alert('Ajout effectué avec succès');
+			$("#pageBody").load("usergst.php");
+		}
+		else
+		{
+			alert('Une erreur est survenue');
+		}
+	}	
+	//Envoie une requête de suppression d'utilisateur
+	function delUsr(id)
+	{
+		if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible !"))
+		{
+			ajax('isUserDeletable.php', '&id='+id, manageUsrDeletable);
+		}
+	}
+	//Vérifie que l'utilisateur peut être supprimé
+	function manageUsrDeletable(content)
+	{
+		if (content.substring(0, 4) == 'true')
+		{
+			ajax('usermgr.php', '&option=delusr&id='+content.substring(4), displayDelUsr);
+		}
+		else
+		{
+			alert('Impossible de supprimer un utilisateur ayant déjà effectué des actions');
+		}
+	}
+	//Gère l'affichage après suppression d'un utilisateur
+	function displayDelUsr(content)
+	{
+		if (content == 'delok')
+		{
+			alert('Utilisateur supprimé !');
+			$("#pageBody").load("usergst.php");
+		}
+		else
+		{
+			alert('Une erreur est survenue');
+		}
+	}
 	//----------------PATCHS-------------------
 	//Refresh affichage des patchs d'après DB
 	function loadPatchs()

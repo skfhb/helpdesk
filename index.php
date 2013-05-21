@@ -2,6 +2,8 @@
 	session_start();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
 <?php
 	//-----------------------------------------------//
 	//	Projet 		: Task Manager					 //
@@ -30,22 +32,20 @@
 	include("include/dragdrop.php");
 	
 ?>
-<html>
-	<head>
 		<title>
 			<?php 
 				//Affiche le titre de la fenêtre
 				echo _WINDOW_TITLE; 
 			?>
 		</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<!-- Imports jQuery pour DnD -->
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 		<!-- Fin imports jQuery -->
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
 		<div id="header">
@@ -58,7 +58,7 @@
 					echo '<div id="connected">';
 					echo 'Bienvenue <b>'.$_SESSION['login'].'</b>';
 					echo '<br /><br /><br />';
-					echo '<font class="btn"><u>Mon profil</u></font>';
+					echo '<font class="btn" onclick="loadPage(\'profil.php\');"><u>Mon profil</u></font>';
 					echo '<br /><br /><br />';
 					echo '<font class="btn" onclick="disconnect();"><u>Se déconnecter</u></font>';
 					echo '</div>';

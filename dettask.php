@@ -156,6 +156,14 @@
 		?>
 		</div>
 	</div>
+	<?php
+		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+		{
+			echo '<div id="modiftask" onclick="alert(\'Prochainement\');">';
+			echo 'Modifier cette tâche';
+			echo '</div>';
+		}
+	?>
 	<div id="contentTask">
 		<?php
 			echo '<b>'.$task_Lbl.'</b><br /><br />';

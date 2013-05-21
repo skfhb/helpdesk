@@ -36,7 +36,7 @@
 			$types = execSQL($c, $sqltyp);
 			echo '<div class="headertask'.$parite.'" id="'.odbc_result($tasks, 'CODTASK').'div">';
 			echo '<div class="headerelementmove" id="'.odbc_result($tasks, 'CODTASK').'" unselectable="on" style="width:32px;">&nbsp;</div>';
-			echo '<div class="headerelement" style="width:100px;" onclick="loadPage(\'dettask.php?id='.odbc_result($tasks, 'CODTASK').'\')" onmouseover="this.style.textDecoration=\'underline\';this.style.color=\'#0000AA\';" onmouseout="this.style.textDecoration=\'none\';this.style.color=\'#000000\';">'.odbc_result($tasks, 'CODTASK').'</div>';
+			echo '<div class="headerelement" style="width:100px;cursor:pointer;" onclick="loadPage(\'dettask.php?id='.odbc_result($tasks, 'CODTASK').'\')" onmouseover="this.style.textDecoration=\'underline\';this.style.color=\'#0000AA\';" onmouseout="this.style.textDecoration=\'none\';this.style.color=\'#000000\';">'.odbc_result($tasks, 'CODTASK').'</div>';
 			if (odbc_result($tasks, 'URGTASK') == '1')
 			{
 				echo '<div class="headerelement" style="width:50px;"><img src="'._IMG_STYLE.'icone-urgent.png" alt="Urgent" width="'._IMG_STAT_WIDTH.'" height="'._IMG_STAT_HEIGHT.'" /></div>';

@@ -73,7 +73,7 @@
 		echo '<div id="connected">';
 		echo 'Bienvenue <b>'.strtoupper(trim($_SESSION['login'])).'</b>';
 		echo '<br /><br /><br />';
-		echo '<font class="btn"><u>Mon profil</u></font>';
+		echo '<font class="btn" onclick="loadPage(\'profil.php\');"><u>Mon profil</u></font>';
 		echo '<br /><br /><br />';
 		echo '<font class="btn" onclick="disconnect();"><u>Se déconnecter</u></font>';
 		echo '</div>';

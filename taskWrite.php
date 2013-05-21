@@ -61,34 +61,7 @@
 	$partask = NULL;
 	$codsts = $_POST['selectstat'];
 	
-<<<<<<< HEAD
-	echo $maxID;
-	echo '<br />'.$lbltask;
-	echo '<br />'.$duetask;
-	echo '<br />'.$urgtask;
-	echo '<br />'.$pubtask;
-	echo '<br />'.$acttask;
-	echo '<br />'.$dataskt;
-	echo '<br />'.$codtypt;
-	echo '<br />'.$codprio;
-	echo '<br />'.$coduser;
-	echo '<br />'.$partask;
-=======
 	$duetask = str_replace('/', '.', $duetask);
-	
-	echo $maxID;						
-	echo '<br />'.$lbltask;			
-	echo '<br />'.$duetask;			
-	echo '<br />'.$urgtask;			
-	echo '<br />'.$pubtask;				
-	echo '<br />'.$acttask;				
-	echo '<br />'.$dataskt;				
-	echo '<br />'.$codtypt;				
-	echo '<br />'.$codprio;				
-	echo '<br />'.$coduser;			
-	echo '<br />'.$partask;				
-
->>>>>>> createtask
 	
 	//Insert en DB : TAMGTASK
 	$stmt = odbc_prepare($c, 'INSERT INTO TAMGTASK (CODTASK, LBLTASK, DUETASK, URGTASK, PUBTASK, ACTTASK, DATASKT, CODTYPT, CODPRIO, CODUSER, PARTASK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
