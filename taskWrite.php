@@ -51,7 +51,7 @@
 	$dataskt = date('d.m.Y');
 	$codtypt = $_POST['selecttypt'];
 	$codprio = 2;
-	$getUser = execSQL($c, 'SELECT * FROM TAMGUSER WHERE NAMUSER LIKE \''.$_SESSION['login'].'%\'');
+	$getUser = execSQL($c, 'SELECT * FROM TAMGUSER WHERE NAMUSER LIKE \''.strtoupper($_SESSION['login']).'%\'');
 	$usersDest = $_POST['usersDestStringList'];
 	$usersDest = explode(';', $usersDest);
 	while (odbc_fetch_row($getUser))

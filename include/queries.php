@@ -42,6 +42,63 @@
 			fct();
 		}
 	}
+	//----------------TÂCHES-------------------
+	//Gère l'affichage d'un onglet
+	function activateTab(tab, optn)
+	{
+		var activetab = document.getElementsByClassName('activetab');
+		if (activetab[0] != tab)
+		{
+			activetab[0].className = 'tab';
+			tab.className = 'activetab';
+		}
+		ajax('optnfilter.php', '&tab='+optn, displayTab);
+	}
+	//Affiche l'interface selon l'onglet choisi
+	function displayTab(content)
+	{
+		document.getElementById('preferenceslisttask').innerHTML = '<br />'+content;
+	}
+	//Effectue une recherche des tâches
+	function searchlisttask()
+	{
+		var codtask = document.getElementById('searchbytasknb').value;
+		var lbltask = document.getElementById('searchbytasklbl').value;
+		var query = '';
+		
+		if ((codtask != '') && (lbltask != ''))
+		{
+			query = 'SELECT * FROM DEVTAMG.TAMGTASK WHERE CODTASK = '+codtask+' OR LBLTASK LIKE \'%'+lbltask+'%\'';
+		}
+		else
+		{
+			if (codtask != '')
+			{
+				query = 'SELECT * FROM DEVTAMG.TAMGTASK WHERE CODTASK = '+codtask;
+			}
+			else
+			{
+				query = 'SELECT * FROM DEVTAMG.TAMGTASK WHERE LBLTASK LIKE \'%'+lbltask+'%\'';
+			}
+		}
+		query += ' AND ACTTASK = 1'
+		ajax('qrymgr.php', '&qry='+query, refreshlisttask);
+	}
+	//Rafraîchit la liste des tâches
+	function refreshlisttask(parm)
+	{
+		$("#listtask").load("listtask.php");
+	}
+	//Change la liste des patchs selon appli sélectionnée
+	function chgfilterpatc()
+	{
+		var selectedAppli = document.getElementById('appfilter').options[document.getElementById('appfilter').selectedIndex].value;
+		ajax('filterpatc.php', '&codapp='+selectedAppli, refreshDisplayPatcFilter);
+	}
+	function refreshDisplayPatcFilter(content)
+	{
+		document.getElementById('filterpatc').innerHTML = content;
+	}
 	//----------------USERS--------------------
 	//Change le mot de passe d'un utilisateur
 	function changePassword()

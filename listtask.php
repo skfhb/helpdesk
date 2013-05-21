@@ -8,11 +8,16 @@
 //---------------------------------------------------------------//
 //Dernière modif le 08/03/2013 par HB
 	
+if(session_id() == '')
+{
+	session_start();
+}	
+
 	header('Content-Type: text/html; charset=iso-8859-1');
 	//- la définition des constantes de l'ensemble de l'application
-	include("include/cst.php");
+	require_once("include/cst.php");
 	//- la gestion de la couche d'accès aux données
-	include("include/dal.php");
+	require_once("include/dal.php");
 	//- les fonctions outil
 	include("include/tools.php");
 	//- la classe de gestion des commentaires
@@ -23,10 +28,17 @@
 	
 	//if (isset($_SESSION['login']))
 	//{
+	if (isset($_SESSION['qry']) && $_SESSION['qry'] != '')
+	{
+		$sqltask = $_SESSION['qry'];
+	}
+	else
+	{
 		$sqltask = 'SELECT CODTASK, LBLTASK, URGTASK, CODTYPT, DATASKT FROM TAMGTASK WHERE ACTTASK != 0';
+	}
 		$tasks = execSQL($c, $sqltask);
 		$parite = 'impair';
-		echo '<div class="headertaskhead"><div class="headerelement" style="width:32px;">&nbsp;</div><div class="headerelement" style="width:100px;"><b>Code tâche</b></div><div class="headerelement" style="width:50px;"><b>Urgent</b></div><div class="headerelement" style="width:150px;"><b>Type</b></div><div class="headerelement" style="width:75px;"><b>Statut</b></div><div class="headerelement"><b>Intitulé tâche</b></div></div>';
+		echo '<div class="headertaskhead"><div class="headerelement" style="width:32px;">&nbsp;</div><div class="headerelement" style="width:100px;"><b>Code tâche</b></div><div class="headerelement" style="width:50px;"><b>Urgent</b></div><div class="headerelement" style="width:150px;"><b>Type</b></div><div class="headerelement" style="width:75px;"><b>Statut</b></div><div class="headerelement" style="text-align:left;width:600px;"><b>Intitulé tâche</b></div></div>';
 		echo '<div class="sortablecontainer">';
 		while (odbc_fetch_row($tasks))
 		{
@@ -49,11 +61,11 @@
 			echo '<div class="headerelement" style="width:75px;"><img src="'._IMG_STAT.odbc_result($statuts, 'CODSTS').'.png" alt="" title="'.trim(odbc_result($statuts, 'LBLSTS')).'" width="'._IMG_STAT_WIDTH.'" height="'._IMG_STAT_HEIGHT.'" /></div>';
 			if (strlen(trim(odbc_result($tasks, 'LBLTASK'))) > 75)
 			{
-				echo '<div class="headerelement" title="'.trim(odbc_result($tasks, 'LBLTASK')).'" onmouseover="displayToolTip();">'.substr(odbc_result($tasks, 'LBLTASK'), 0, 75).'...</div>';
+				echo '<div class="headerelement" title="'.trim(odbc_result($tasks, 'LBLTASK')).'" onmouseover="displayToolTip();" style="text-align:left;width:600px;">'.substr(odbc_result($tasks, 'LBLTASK'), 0, 73).'...</div>';
 			}
 			else
 			{
-				echo '<div class="headerelement">'.odbc_result($tasks, 'LBLTASK').'</div>';
+				echo '<div class="headerelement" style="text-align:left;width:600px;">'.odbc_result($tasks, 'LBLTASK').'</div>';
 			}
 			echo '</div>';
 			if ($parite == 'impair')
@@ -66,6 +78,7 @@
 			}
 		}
 		echo '</div>';
+		echo '<br />';
 		echo '<div class="emptyFooter" style="height:32px;"></div>';
 	//}
 	

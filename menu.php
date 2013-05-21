@@ -16,7 +16,7 @@ if(session_id() == '')
 <img src="resources/style/menu-top.png" alt="Deco_top" />
 <br />
 <ul id="menuItems">
-<li class="btn" onclick="loadPage('listtask.php')">G&eacute;rer les t&acirc;ches</li>
+<li class="btn" onclick="loadPage('parlisttask.php')">G&eacute;rer les t&acirc;ches</li>
 <br />
 <?php
 	if (isset($_SESSION['login']))
