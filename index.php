@@ -80,6 +80,7 @@
 		</div>
 		<div id="pageBody">
 			<!-- Gestion du contenu par loadPage(url) -->
+			<?php include('first.php'); ?>
 		</div>
 	</body>
 </html>

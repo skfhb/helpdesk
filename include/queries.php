@@ -27,10 +27,11 @@
 	{
 		ajax('login.php', '&login=endsession&pwd=null', setConnected);
 	}
-	//Fonction pour AJAX, modifie l'affichage du bloc de connexion
+	//Fonction pour AJAX, modifie l'affichage du bloc de connexion, du menu et de la page
 	function setConnected(content)
 	{
 		document.getElementById('connectBox').innerHTML = content;
+		$("#pageBody").load("first.php");
 		$("#menu").load("menu.php");
 	}
 	//Gère la touche entrée sur le formulaire de connexion

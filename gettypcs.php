@@ -39,15 +39,33 @@
 			echo '<div class="typcLine" id="'.odbc_result($typcs, 'CODTYPC').'">';
 			echo '<input type="button" value="Supprimer" onclick="delTypc('.odbc_result($typcs, 'CODTYPC').')" />';
 			echo '<b>'.odbc_result($typcs, 'LBLTYPC').'</b>';
-			//Si type de commentaire public, alors afficher checkbox cochée
-			if (odbc_result($typcs, 'PUBTYPC') == 1)
+			//Si non-admin, checkbox disabled
+			if (empty($_SESSION['isAdm']) || !$_SESSION['isAdm'])
 			{
-				echo '<input type="checkbox" value="Public" disabled="disabled" />Public';
+				//Si type de commentaire public, alors afficher checkbox cochée
+				if (odbc_result($typcs, 'PUBTYPC') == 1)
+				{
+					echo '<input type="checkbox" value="Public" disabled="disabled" />Public';
+				}
+				//Sinon l'afficher décochée
+				else
+				{
+					echo '<input type="checkbox" value="Public" disabled="disabled" checked />Privé';
+				}
 			}
-			//Sinon l'afficher décochée
+			//Sinon, si admin, afficher checkbox modifiables, avec sur click changement du statut en DB
 			else
 			{
-				echo '<input type="checkbox" value="Public" disabled="disabled" checked />Privé';
+				//Si type de commentaire public, alors afficher checkbox cochée
+				if (odbc_result($typcs, 'PUBTYPC') == 1)
+				{
+					echo '<input type="checkbox" value="Public" />Public';
+				}
+				//Sinon l'afficher décochée
+				else
+				{
+					echo '<input type="checkbox" value="Public" checked />Privé';
+				}
 			}
 			echo '</div>';
 			//Incrémentation du compteur
