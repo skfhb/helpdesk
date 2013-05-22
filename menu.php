@@ -21,7 +21,7 @@ if(session_id() == '')
 <?php
 	if (isset($_SESSION['login']))
 	{
-		echo '<li class="btn" onclick="loadPage(\'createtask.php\');setTimeout(function() { setDatePicker(); }, 400);">Cr&eacute;er une t&agrave;che</li>';
+		echo '<li class="btn" onclick="loadPage(\'createtask.php\');setTimeout(function() { setDatePicker(); }, 400);">Cr&eacute;er une t&acirc;che</li>';
 		echo '<br />';
 	}
 ?>

@@ -95,9 +95,15 @@
 		var selectedAppli = document.getElementById('appfilter').options[document.getElementById('appfilter').selectedIndex].value;
 		ajax('filterpatc.php', '&codapp='+selectedAppli, refreshDisplayPatcFilter);
 	}
+	//Dépendance AJAX de la fonction chgfilterpatc - Change dynamiquement la liste des patchs selon appli sélectionnée
 	function refreshDisplayPatcFilter(content)
 	{
 		document.getElementById('filterpatc').innerHTML = content;
+	}
+	//Applique les filtres
+	function setFilter()
+	{
+		alert('test');
 	}
 	//----------------USERS--------------------
 	//Change le mot de passe d'un utilisateur

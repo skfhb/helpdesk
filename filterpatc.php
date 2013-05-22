@@ -29,7 +29,7 @@ $c = openConnection();
 	odbc_fetch_row($patchs, 0);
 	if ($nbPatchs > 0)
 	{
-		echo 'Patch : <select id="patcfilter">';
+		echo 'Patch : <select id="patcfilter" onchange="setFilter();">';
 		echo '<option value="all">Tous</option>';
 		//Rempli le select
 		while (odbc_fetch_row($patchs))
