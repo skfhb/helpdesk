@@ -8,12 +8,6 @@
 //---------------------------------------------------------------//
 //Dernière modif le 08/03/2013 par HB
 	
-if(session_id() == '')
-{
-	session_start();
-}	
-
-	header('Content-Type: text/html; charset=iso-8859-1');
 	//- la définition des constantes de l'ensemble de l'application
 	require_once("include/cst.php");
 	//- la gestion de la couche d'accès aux données
