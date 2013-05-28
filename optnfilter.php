@@ -43,12 +43,19 @@ if (empty($_POST['tab']) || ($_POST['tab'] == 'filter'))
 	$prios = execSQL($c, 'SELECT * FROM TAMGPRIO');
 	$stats = execSQL($c, 'SELECT * FROM TAMGSTAT');
 	
-	echo '<select id="appfilter" onchange="setFilter();">';
+	echo '<select id="appfilter" onchange="chgfilterpatc();setTimeout(setFilter, 1000);">';
 	echo '<option value="all">Toutes</option>';
 	//Rempli le select
 	while (odbc_fetch_row($applis))
 	{
-		echo '<option value="'.odbc_result($applis, 'CODAPP').'">'.odbc_result($applis, 'NAMAPP').'</option>';
+		if (isset($_SESSION['F_App']) && $_SESSION['F_App'] == odbc_result($applis, 'CODAPP'))
+		{
+			echo '<option value="'.odbc_result($applis, 'CODAPP').'" selected>'.odbc_result($applis, 'NAMAPP').'</option>';
+		}
+		else
+		{
+			echo '<option value="'.odbc_result($applis, 'CODAPP').'">'.odbc_result($applis, 'NAMAPP').'</option>';
+		}
 	}
 	echo '</select>';
 	echo '</td><td style="width:33%;">';
@@ -57,7 +64,14 @@ if (empty($_POST['tab']) || ($_POST['tab'] == 'filter'))
 	include('filterpatc.php');
 	echo '</div>';
 	echo '</td><td style="width:20%;">';
-	echo 'Tâches urgentes : <input type="checkbox" name="urgfilter" id="urgfilter" onclick="setFilter();" />';
+	if (isset($_SESSION['F_Urg']) && $_SESSION['F_Urg'] == 1)
+	{
+		echo 'Tâches urgentes : <input type="checkbox" name="urgfilter" id="urgfilter" onclick="setFilter();" checked />';
+	}
+	else
+	{
+		echo 'Tâches urgentes : <input type="checkbox" name="urgfilter" id="urgfilter" onclick="setFilter();" />';
+	}
 	echo '</td>';
 	echo '</tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr>';
 	echo '<td style="width:33%;">';
@@ -65,7 +79,14 @@ if (empty($_POST['tab']) || ($_POST['tab'] == 'filter'))
 	echo '<option value="all">Tous</option>';
 	while (odbc_fetch_row($typts))
 	{
-		echo '<option value="'.odbc_result($typts, 'CODTYPT').'">'.odbc_result($typts, 'LBLTYPT').'</option>';
+		if (isset($_SESSION['F_Typt']) && $_SESSION['F_Typt'] == odbc_result($typts, 'CODTYPT'))
+		{
+			echo '<option value="'.odbc_result($typts, 'CODTYPT').'" selected>'.odbc_result($typts, 'LBLTYPT').'</option>';
+		}
+		else
+		{
+			echo '<option value="'.odbc_result($typts, 'CODTYPT').'">'.odbc_result($typts, 'LBLTYPT').'</option>';
+		}
 	}
 	echo '</select>';
 	echo '</td><td style="width:33%;">';
@@ -73,7 +94,14 @@ if (empty($_POST['tab']) || ($_POST['tab'] == 'filter'))
 	echo '<option value="all">Toutes</option>';
 	while (odbc_fetch_row($prios))
 	{
-		echo '<option value="'.odbc_result($prios, 'CODPRIO').'">'.odbc_result($prios, 'VALPRIO').'</option>';
+		if (isset($_SESSION['F_Prio']) && $_SESSION['F_Prio'] == odbc_result($prios, 'CODPRIO'))
+		{
+			echo '<option value="'.odbc_result($prios, 'CODPRIO').'" selected>'.odbc_result($prios, 'VALPRIO').'</option>';
+		}
+		else
+		{
+			echo '<option value="'.odbc_result($prios, 'CODPRIO').'">'.odbc_result($prios, 'VALPRIO').'</option>';
+		}
 	}
 	echo '</select>';
 	echo '</td><td style="width:20%;">';
@@ -81,24 +109,55 @@ if (empty($_POST['tab']) || ($_POST['tab'] == 'filter'))
 	echo '<option value="all">Tous</option>';
 	while (odbc_fetch_row($stats))
 	{
-		echo '<option value="'.odbc_result($stats, 'CODSTS').'">'.odbc_result($stats, 'LBLSTS').'</option>';
+		if (isset($_SESSION['F_Stat']) && $_SESSION['F_Stat'] == odbc_result($stats, 'CODSTS'))
+		{
+			echo '<option value="'.odbc_result($stats, 'CODSTS').'" selected>'.odbc_result($stats, 'LBLSTS').'</option>';
+		}
+		else
+		{
+			echo '<option value="'.odbc_result($stats, 'CODSTS').'">'.odbc_result($stats, 'LBLSTS').'</option>';
+		}
 	}
 	echo '</select>';
 	echo '<img src="'._IMG_STAT.'all.png" id="imgstat" width="16" height="16" />';
 	echo '</td>';
 	echo '</tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr>';
 	echo '<td style="width:33%;">';
-	echo 'Mes demandes : <input type="checkbox" name="myaskfilter" id="myaskfilter" onclick="setFilter();" />';
-	echo '</td><td style="width:33%;">';
-	echo 'Me concernant : <input type="checkbox" name="formefilter" id="formefilter" onclick="setFilter();" />';
-	echo '</td><td style="width:20%;">';
-	if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+	echo 'Mes demandes : ';
+	if (isset($_SESSION['F_MAsk']) && $_SESSION['F_MAsk'] == 1)
 	{
-		echo 'Qui me sont affectées : <input type="checkbox" name="affcmefilter" id="affcmefilter" onclick="setFilter();" />';
+		echo '<input type="checkbox" name="myaskfilter" id="myaskfilter" onclick="setFilter();" checked />';
 	}
 	else
 	{
-		echo '&nbsp;';
+		echo '<input type="checkbox" name="myaskfilter" id="myaskfilter" onclick="setFilter();" />';
+	}
+	echo '</td><td style="width:33%;">';
+	echo 'Me concernant : ';
+	if (isset($_SESSION['F_MCon']) && $_SESSION['F_MCon'] == 1)
+	{
+		echo '<input type="checkbox" name="formefilter" id="formefilter" onclick="setFilter();" checked />';
+	}
+	else
+	{
+		echo '<input type="checkbox" name="formefilter" id="formefilter" onclick="setFilter();" />';
+	}
+	echo '</td><td style="width:20%;">';
+	echo 'Qui me sont affectées : ';
+	if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+	{
+		if (isset($_SESSION['F_MAffc']) && $_SESSION['F_MAffc'] == 1)
+		{
+			echo '<input type="checkbox" name="affcmefilter" id="affcmefilter" onclick="setFilter();" checked />';
+		}
+		else
+		{
+			echo '<input type="checkbox" name="affcmefilter" id="affcmefilter" onclick="setFilter();" />';
+		}
+	}
+	else
+	{
+		echo '<input type="checkbox" name="affcmefilter" id="affcmefilter" disabled="disabled" />';
 	}
 	echo '</td>';
 	echo '</tr>';
@@ -107,9 +166,25 @@ if (empty($_POST['tab']) || ($_POST['tab'] == 'filter'))
 elseif ($_POST['tab'] == 'search')
 {
 	echo '<br />';
-	echo 'Par num&eacute;ro de t&acirc;che : <input type="text" name="searchbytasknb" id="searchbytasknb" value="" />';
+	echo 'Par num&eacute;ro de t&acirc;che : ';
+	if (isset($_SESSION['F_CODTSK']))
+	{
+		echo '<input type="text" name="searchbytasknb" id="searchbytasknb" value="'.$_SESSION['F_CODTSK'].'" />';
+	}
+	else
+	{
+		echo '<input type="text" name="searchbytasknb" id="searchbytasknb" value="" />';
+	}
 	echo '<br /><br />';
-	echo 'Par libell&eacute; contenant : <input type="text" name="searchbytasklbl" id="searchbytasklbl" value="" />';
+	echo 'Par libell&eacute; contenant : ';
+	if (isset($_SESSION['F_LBLTSK']))
+	{
+		echo '<input type="text" name="searchbytasklbl" id="searchbytasklbl" value="'.$_SESSION['F_LBLTSK'].'" />';
+	}
+	else
+	{
+		echo '<input type="text" name="searchbytasklbl" id="searchbytasklbl" value="" />';
+	}
 	echo '<br />';
 	echo '<i><font style="font-size:0.75em;">Sensible &agrave; la casse</font></i>';
 	echo '<br /><br />';
@@ -118,6 +193,59 @@ elseif ($_POST['tab'] == 'search')
 elseif ($_POST['tab'] == 'col')
 {
 	echo 'Colonnes';
+}
+elseif ($_POST['tab'] == 'raz')
+{
+	echo '<br />';
+	if (isset($_SESSION['qry']))
+	{
+		unset($_SESSION['qry']);
+	}
+	if (isset($_SESSION['F_App']))
+	{
+		unset($_SESSION['F_App']);
+	}
+	if (isset($_SESSION['F_Patc']))
+	{
+		unset($_SESSION['F_Patc']);
+	}
+	if (isset($_SESSION['F_Urg']))
+	{
+		unset($_SESSION['F_Urg']);
+	}
+	if (isset($_SESSION['F_Typt']))
+	{
+		unset($_SESSION['F_Typt']);
+	}
+	if (isset($_SESSION['F_Prio']))
+	{
+		unset($_SESSION['F_Prio']);
+	}
+	if (isset($_SESSION['F_Stat']))
+	{
+		unset($_SESSION['F_Stat']);
+	}
+	if (isset($_SESSION['F_MAsk']))
+	{
+		unset($_SESSION['F_MAsk']);
+	}
+	if (isset($_SESSION['F_MCon']))
+	{
+		unset($_SESSION['F_MCon']);
+	}
+	if (isset($_SESSION['F_MAffc']))
+	{
+		unset($_SESSION['F_MAffc']);
+	}
+	if (isset($_SESSION['F_CODTSK']))
+	{
+		unset($_SESSION['F_CODTSK']);
+	}
+	if (isset($_SESSION['F_LBLTSK']))
+	{
+		unset($_SESSION['F_LBLTSK']);
+	}
+	echo 'Remise &agrave; z&eacute;ro effectu&eacute;e';
 }
 
 ?>

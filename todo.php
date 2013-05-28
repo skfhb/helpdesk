@@ -25,7 +25,7 @@ echo 'Edit Patch';
 echo '<br /><br />';
 echo '<u>Listtask.php</u>';
 echo '<br />';
-echo 'Ajout tris et filtres';
-echo '<br />';
 echo 'Ajout choix des colonnes';
+echo '<br />';
+echo 'Ajout tris des colonnes';
 ?>

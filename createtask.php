@@ -8,7 +8,32 @@
 //---------------------------------------------------------------//
 //Dernière modif le 11/04/2013 par HB
 
-	header('Content-Type: text/html; charset=iso-8859-1');
+	
+	try
+	{
+		if(session_id() == '')
+		{
+			session_start();
+		}
+		
+		//Si warning, le gérer par la fonction "warning_handler"
+		set_error_handler("warning_handler", E_WARNING);
+		
+		//envoyer le header
+		header('Content-Type: text/html; charset=iso-8859-1');
+	}
+	catch (Exception $e)
+	{
+		//Rien à faire, la session a juste déjà été lancée
+	}
+	//Manage le warning du header déjà envoyé
+	function warning_handler($errno, $errstr) 
+	{ 
+			//Rien à faire, le header est juste déjà passé
+	}
+
+	
+	//header('Content-Type: text/html; charset=iso-8859-1');
 	//- la définition des constantes de l'ensemble de l'application
 	include("include/cst.php");
 	//- la gestion de la couche d'accès aux données
@@ -74,7 +99,7 @@
 						//Récup liste des applis
 						$apps = execSQL($c, 'SELECT * FROM TAMGAPPL');
 						
-						echo '<select id="selectApp" name="selectapp" style="width:150px;">';
+						echo '<select id="appfilter" name="appfilter" style="width:150px;" onchange="chgfilterpatc();">';
 						echo '<option value="none"></option>';
 						//Rempli le select
 						while (odbc_fetch_row($apps))
@@ -88,7 +113,18 @@
 			</table>
 			<br />
 			<br />
-			<input type="checkbox" name="taskurg" id="taskurg" /> Tâche urgente
+			<table style="border:0px;">
+				<tr>
+					<td>
+						<input type="checkbox" name="taskurg" id="taskurg" /> Tâche urgente
+					</td>
+					<td>
+						<?php
+						include('filterpatc.php');
+						?>
+					</td>
+				</tr>
+			</table>
 			<br />
 			<br />
 			Échéance au : <input type="text" name="dateecheance" id="datepicker" />

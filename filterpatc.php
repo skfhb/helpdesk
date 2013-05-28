@@ -8,7 +8,7 @@
 //---------------------------------------------------------------//
 //Dernière modif le 21/05/2013 par HB
 
-header('Content-Type: text/html; charset=iso-8859-1');
+header('Content-Type: text/html; charset=iso-8859-1');	
 //- la définition des constantes de l'ensemble de l'application
 require_once("include/cst.php");
 //- la gestion de la couche d'accès aux données
@@ -27,15 +27,20 @@ $c = openConnection();
 	}
 	$nbPatchs = getNumRows($patchs);
 	odbc_fetch_row($patchs, 0);
-	if ($nbPatchs > 0)
-	{
+
 		echo 'Patch : <select id="patcfilter" onchange="setFilter();">';
 		echo '<option value="all">Tous</option>';
 		//Rempli le select
 		while (odbc_fetch_row($patchs))
 		{
-			echo '<option value="'.odbc_result($patchs, 'CODPATC').'">'.odbc_result($patchs, 'NAMPATC').'</option>';
+			if (isset($_SESSION['F_Patc']) && $_SESSION['F_Patc'] == odbc_result($patchs, 'CODPATC'))
+			{
+				echo '<option value="'.odbc_result($patchs, 'CODPATC').'" selected>'.odbc_result($patchs, 'NAMPATC').'</option>';
+			}
+			else
+			{
+				echo '<option value="'.odbc_result($patchs, 'CODPATC').'">'.odbc_result($patchs, 'NAMPATC').'</option>';
+			}
 		}
 		echo '</select>';
-	}
 ?>

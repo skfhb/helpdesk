@@ -58,35 +58,19 @@
 	function displayTab(content)
 	{
 		document.getElementById('preferenceslisttask').innerHTML = '<br />'+content;
+		$("#listtask").load("listtask.php");
 	}
 	//Effectue une recherche des tâches
 	function searchlisttask()
 	{
-		var codtask = document.getElementById('searchbytasknb').value;
-		var lbltask = document.getElementById('searchbytasklbl').value;
-		var query = '';
-		
-		if ((codtask != '') && (lbltask != ''))
-		{
-			query = 'SELECT * FROM DEVTAMG.TAMGTASK WHERE CODTASK = '+codtask+' OR LBLTASK LIKE \'%'+lbltask+'%\'';
-		}
-		else
-		{
-			if (codtask != '')
-			{
-				query = 'SELECT * FROM DEVTAMG.TAMGTASK WHERE CODTASK = '+codtask;
-			}
-			else
-			{
-				query = 'SELECT * FROM DEVTAMG.TAMGTASK WHERE LBLTASK LIKE \'%'+lbltask+'%\'';
-			}
-		}
-		query += ' AND ACTTASK = 1'
-		ajax('qrymgr.php', '&qry='+query, refreshlisttask);
+		var codtsk = document.getElementById('searchbytasknb').value;
+		var lbltsk = document.getElementById('searchbytasklbl').value;		
+		ajax('qrymgr.php', '&CODTSK='+codtsk+'&LBLTSK='+lbltsk, refreshlisttask);
 	}
 	//Rafraîchit la liste des tâches
 	function refreshlisttask(parm)
 	{
+		alert(parm);
 		$("#listtask").load("listtask.php");
 	}
 	//Change la liste des patchs selon appli sélectionnée
@@ -103,7 +87,16 @@
 	//Applique les filtres
 	function setFilter()
 	{
-		alert('test');
+		var App = document.getElementById('appfilter').options[document.getElementById('appfilter').selectedIndex].value;
+		var Patc = document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex].value;
+		var Urg = document.getElementById('urgfilter').checked;
+		var Typt = document.getElementById('typtfilter').options[document.getElementById('typtfilter').selectedIndex].value;
+		var Prio = document.getElementById('priofilter').options[document.getElementById('priofilter').selectedIndex].value;
+		var Stat = document.getElementById('stsfilter').options[document.getElementById('stsfilter').selectedIndex].value;
+		var MAsk = document.getElementById('myaskfilter').checked;
+		var MCon = document.getElementById('formefilter').checked;
+		var MAffc = document.getElementById('affcmefilter').checked;
+		ajax('qrymgr.php', '&App='+App+'&Patc='+Patc+'&Urg='+Urg+'&Typt='+Typt+'&Prio='+Prio+'&Stat='+Stat+'&MAsk='+MAsk+'&MCon='+MCon+'&MAffc='+MAffc, refreshlisttask);
 	}
 	//----------------USERS--------------------
 	//Change le mot de passe d'un utilisateur

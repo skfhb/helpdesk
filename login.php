@@ -49,6 +49,7 @@
 			{
 				if (trim(odbc_result($users, 'PWDUSER')) == trim(md5($pwd)))
 				{
+					$_SESSION['coduser'] = odbc_result($users, 'CODUSER');
 					$_SESSION['login'] = $_POST['login'];
 					if (odbc_result($users, 'ADMUSER') == '1')
 					{
