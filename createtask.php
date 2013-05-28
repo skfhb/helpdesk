@@ -67,7 +67,10 @@
 						//Rempli le select
 						while (odbc_fetch_row($stats))
 						{
-							echo '<option value="'.odbc_result($stats, 'CODSTS').'">'.trim(odbc_result($stats, 'LBLSTS')).'</option>';
+							if (odbc_result($stats, 'CODSTS') == 1 || (isset($_SESSION['isAdm']) && $_SESSION['isAdm']))
+							{
+								echo '<option value="'.odbc_result($stats, 'CODSTS').'">'.trim(odbc_result($stats, 'LBLSTS')).'</option>';
+							}
 						}
 						echo '</select>';
 						?>
@@ -120,7 +123,16 @@
 					</td>
 					<td>
 						<?php
-						include('filterpatc.php');
+						if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+						{
+							echo '<div id="filterpatc">';
+							include('filterpatc.php');
+							echo '</div>';
+						}
+						else
+						{
+							echo '&nbsp;';
+						}
 						?>
 					</td>
 				</tr>
