@@ -568,11 +568,15 @@
 		var dests = document.getElementById('selectAffc').options;
 		for (var i = 0 ; i < dests.length ; i++)
 		{
-			if ((toRemove[0].innerText < dests[i].value) && !(inserted))
+			if ((toRemove[0].innerText < dests[i].innerText) && !(inserted))
 			{
 				document.getElementById('selectAffc').insertBefore(opt, dests[i]);
 				inserted = true;
 			}
+		}
+		if ((dests.length == 0) || !(inserted))
+		{
+			document.getElementById('selectAffc').appendChild(opt);
 		}
 		document.getElementById('finalAffc').removeChild(toRemove[0]);
 		updateAffcUsers();
@@ -639,11 +643,15 @@
 		var dests = document.getElementById('selectDest').options;
 		for (var i = 0 ; i < dests.length ; i++)
 		{
-			if ((toRemove[0].innerText < dests[i].value) && !(inserted))
+			if ((toRemove[0].innerText < dests[i].innerText) && !(inserted))
 			{
 				document.getElementById('selectDest').insertBefore(opt, dests[i]);
 				inserted = true;
 			}
+		}
+		if ((dests.length == 0) || !(inserted))
+		{
+			document.getElementById('selectAffc').appendChild(opt);
 		}
 		document.getElementById('finalDest').removeChild(toRemove[0]);
 		updateDestUsers();

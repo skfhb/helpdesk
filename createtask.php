@@ -52,6 +52,17 @@
 	</div>
 	<div id="contentTask">
 		<form id="newTaskForm" enctype="multipart/form-data" action="taskWrite.php" method="post" target="taskWrite" onsubmit="return validNewTask();">
+		<?php 
+			if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+			{
+				echo '<img src="resources/style/lnk.png" width="16" height="16" />';
+				echo 'Liée à la tâche n° : ';
+				echo '<input type="text" name="taskpart" id="taskpart" onchange="verifTaskExists();" />';
+				echo '<img src="resources/statuts/all.png" id="isTaskPartOk" width="16" height="16" />';
+				echo '<br />';
+				echo '<br />';
+			}
+		?>
 			<table>
 				<tr>
 					<td>
@@ -139,6 +150,32 @@
 			</table>
 			<br />
 			<br />
+			<?php
+				if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+				{
+					echo '<table style="border:0px;">';
+					echo '<tr>';
+					echo '<td>';
+					//Récup liste des priorités
+					$prios = execSQL($c, 'SELECT * FROM TAMGPRIO');
+						
+					echo 'Priorité : <select id="selectprio" name="selectprio" style="width:150px;">';
+					echo '<option value="none"></option>';
+					//Rempli le select
+					while (odbc_fetch_row($prios))
+					{
+						echo '<option value="'.odbc_result($prios, 'CODPRIO').'">'.odbc_result($prios, 'VALPRIO').'</option>';
+					}
+					echo '</select>';
+					echo '</td>';
+					echo '<td>';
+					echo '<input type="checkbox" name="taskpub" id="taskpub" /> Tâche privée';
+					echo '</td>';
+					echo '</tr>';
+					echo '</table>';
+					echo '<br /><br />';
+				}
+			?>
 			Échéance au : <input type="text" name="dateecheance" id="datepicker" />
 			<br />
 			<br />
@@ -176,6 +213,9 @@
 				if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 				{
 				?>
+				Affecté à : 
+				<br />
+				<br />
 					<table style="border:0px;">
 						<tr>
 							<td>
