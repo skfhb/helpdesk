@@ -152,7 +152,6 @@
 						//Récup liste des users
 						$users = execSQL($c, 'SELECT * FROM TAMGUSER ORDER BY NAMUSER');
 						
-						//Sur changement de valeur, charge les patchs liés à l'appli choisie
 						echo '<select id="selectDest" style="width:100px;">';
 						//Remplis le select
 						while (odbc_fetch_row($users))
@@ -173,8 +172,43 @@
 			</table>
 			<br />
 			<br />
+			<?php
+				if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
+				{
+				?>
+					<table style="border:0px;">
+						<tr>
+							<td>
+								<?php
+								//Récup liste des users
+								$users = execSQL($c, 'SELECT * FROM TAMGUSER WHERE ADMUSER = 1 ORDER BY NAMUSER');
+								
+								echo '<select id="selectAffc" style="width:100px;">';
+								//Remplis le select
+								while (odbc_fetch_row($users))
+								{
+									echo '<option value="'.trim(odbc_result($users, 'CODUSER')).'">'.trim(odbc_result($users, 'NAMUSER')).'</option>';
+								}
+								echo '</select>';
+								?>
+							</td>
+							<td>
+								<input type="button" value="=>" onclick="addAffc();" />
+								<br />
+								<input type="button" value="<=" onclick="removeAffc();" />
+							</td>
+							<td id="finalAffc">
+							</td>
+						</tr>
+					</table>
+					<br />
+					<br />
+				<?php
+				}
+			?>
 			<input type="hidden" id="usersDestStringList" name="usersDestStringList" value="" />
+			<input type="hidden" id="usersAffcStringList" name="usersAffcStringList" value="" />
 			<input type="submit" value="Créer la tâche" style="width:100%;" onclick="return validNewTask();"/>
 		</form>
-		<iframe style="height:100px;border:0px;" name="taskWrite" seamless></iframe>
+		<iframe style="height:1px;border:0px;" name="taskWrite" seamless></iframe>
 	</div>

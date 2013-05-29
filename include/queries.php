@@ -531,6 +531,77 @@
 	}
 	
 	//---------------CRÉATION TÂCHE---------------------
+	//Gère l'ajout d'une affectation à la tâche créée
+	function addAffc()
+	{
+		var toAdd = document.getElementById('selectAffc').options[document.getElementById('selectAffc').selectedIndex].value;
+		var name = document.getElementById('selectAffc').options[document.getElementById('selectAffc').selectedIndex].innerText;
+		if (document.getElementById('finalAffc').innerText == '')
+		{
+			document.getElementById('finalAffc').innerHTML = '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuseraffc" value="'+trim(toAdd)+'" /><div class="userAffc" onclick="focusUserAffc(this);">' + trim(name) + '</div>';
+		}
+		else
+		{
+			document.getElementById('finalAffc').innerHTML += '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuseraffc" value="'+trim(toAdd)+'" /><div class="userAffc" onclick="focusUserAffc(this);">' + trim(name) + '</div>';
+		}
+		var dests = document.getElementById('selectAffc').options;
+		for (var i = 0 ; i < dests.length ; i++)
+		{
+			if (dests[i].value == toAdd)
+			{
+				document.getElementById('selectAffc').removeChild(dests[i]);
+			}
+		}
+		document.getElementById('finalAffc').style.backgroundColor = '#FFFFFF';
+		updateAffcUsers();
+	}
+	//Gère la suppression d'une affectation à la tâche créée
+	function removeAffc()
+	{
+		var toRemove = document.getElementsByClassName('selectedUserAffc');
+		var opt=document.createElement("option");
+		var text=document.createTextNode(toRemove[0].innerText);
+		var inserted = false;
+		opt.setAttribute("value", toRemove[0].innerText);
+		opt.appendChild(text);
+		
+		var dests = document.getElementById('selectAffc').options;
+		for (var i = 0 ; i < dests.length ; i++)
+		{
+			if ((toRemove[0].innerText < dests[i].value) && !(inserted))
+			{
+				document.getElementById('selectAffc').insertBefore(opt, dests[i]);
+				inserted = true;
+			}
+		}
+		document.getElementById('finalAffc').removeChild(toRemove[0]);
+		updateAffcUsers();
+	}
+	//Remplit le champ de type hidden pour traitement des affcs en DB
+	function updateAffcUsers()
+	{
+		var dests = document.getElementsByClassName('hiddenuseraffc');
+		var str = "";
+		for (var i = 0 ; i < dests.length ; i++)
+		{
+			str = str + dests[i].value + ';';
+		}
+		str = str.substring(0, str.length-1);
+		document.getElementById('usersAffcStringList').value = str;
+	}
+	//Gère l'affichage de sélection d'un utilisateur dans la liste des affcs
+	function focusUserAffc(u)
+	{
+		u.className = 'selectedUserAffc';
+		var users = document.getElementsByClassName('selectedUserAffc');
+		for (var i = 0 ; i < users.length ; i++)
+		{
+			if (users[i] != u)
+			{
+				users[i].className = 'userAffc';
+			}
+		}
+	}
 	//Gère l'ajout d'un destinataire à la tâche créée
 	function addDest()
 	{

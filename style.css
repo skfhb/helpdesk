@@ -192,6 +192,17 @@ body
 	border-radius : 10px;
 }
 
+#finalAffc
+{
+	border : 1px solid;
+	border-color : #0066D0;
+	background-color : #FFFFFF;
+	padding : 5px;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
 #usertable tr
 {
 	-webkit-border-radius : 40px 10px;
@@ -403,6 +414,36 @@ body
 }
 
 .selectedUserDest
+{
+	color : #FFFFFF;
+	background-color : #0066D0;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.userAffc
+{
+	color : #000000;
+	background-color : #FFFFFF;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.userAffc:hover
+{
+	color : #000000;
+	background-color : #BBD9F8;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.selectedUserAffc
 {
 	color : #FFFFFF;
 	background-color : #0066D0;
