@@ -122,5 +122,11 @@ function commentEquals($a, $b)
 			});
 			$( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
 		  });
+		$("#taskpart").keypress(function(){
+			verifTaskExists();
+		});
+		$("#taskpart").keyup(function(){
+			verifTaskExists();
+		});
     };
 </script>

@@ -57,7 +57,7 @@
 			{
 				echo '<img src="resources/style/lnk.png" width="16" height="16" />';
 				echo 'Liée à la tâche n° : ';
-				echo '<input type="text" name="taskpart" id="taskpart" onchange="verifTaskExists();" />';
+				echo '<input type="text" name="taskpart" id="taskpart" onkeypress="verifTaskExists();" />';
 				echo '<img src="resources/statuts/all.png" id="isTaskPartOk" width="16" height="16" />';
 				echo '<br />';
 				echo '<br />';

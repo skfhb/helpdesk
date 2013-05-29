@@ -531,6 +531,30 @@
 	}
 	
 	//---------------CRÉATION TÂCHE---------------------
+	//Vérifie que la tâche parente saisie existe
+	function verifTaskExists()
+	{
+		if (document.getElementById('taskpart').value != '')
+		{
+			ajax('calcExistsTask.php', '&tasknb='+document.getElementById('taskpart').value, ajxVerifTaskExists);
+		}
+		else
+		{
+			document.getElementById('isTaskPartOk').src = 'resources/statuts/all.png';
+		}
+	}
+	//Dépendance AJAX de verifTaskExists pour rapport user
+	function ajxVerifTaskExists(content)
+	{
+		if (content == 'OK')
+		{
+			document.getElementById('isTaskPartOk').src = 'resources/statuts/5.png';
+		}
+		else
+		{
+			document.getElementById('isTaskPartOk').src = 'resources/statuts/2.png';
+		}
+	}
 	//Gère l'ajout d'une affectation à la tâche créée
 	function addAffc()
 	{
