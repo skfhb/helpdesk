@@ -113,7 +113,7 @@
 						//Récup liste des applis
 						$apps = execSQL($c, 'SELECT * FROM TAMGAPPL');
 						
-						echo '<select id="appfilter" name="appfilter" style="width:150px;" onchange="chgfilterpatc();">';
+						echo '<select id="appfilter" name="appfilter" style="width:150px;" onchange="chgfilterpatc2();">';
 						echo '<option value="none"></option>';
 						//Rempli le select
 						while (odbc_fetch_row($apps))
@@ -137,7 +137,9 @@
 						if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 						{
 							echo '<div id="filterpatc">';
-							include('filterpatc.php');
+							echo 'Patch : <select id="patcfilter">';
+							echo '<option value="all" id="filteroptall"></option>';
+							echo '</select>';
 							echo '</div>';
 						}
 						else
@@ -160,7 +162,6 @@
 					$prios = execSQL($c, 'SELECT * FROM TAMGPRIO');
 						
 					echo 'Priorité : <select id="selectprio" name="selectprio" style="width:150px;">';
-					echo '<option value="none"></option>';
 					//Rempli le select
 					while (odbc_fetch_row($prios))
 					{
@@ -250,5 +251,5 @@
 			<input type="hidden" id="usersAffcStringList" name="usersAffcStringList" value="" />
 			<input type="submit" value="Créer la tâche" style="width:100%;" onclick="return validNewTask();"/>
 		</form>
-		<iframe style="height:1px;border:0px;" name="taskWrite" seamless></iframe>
+		<iframe style="height:80px;border:0px;" name="taskWrite" seamless></iframe>
 	</div>

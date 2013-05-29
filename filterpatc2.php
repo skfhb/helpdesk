@@ -1,7 +1,7 @@
 <?php
 //---------------------------------------------------------------//
 //	Projet 		: Task Manager									 //
-//	Fichier 	: filterpatc.php							 	 //
+//	Fichier 	: filterpatc2.php							 	 //
 //  Description : Gère les filtres/recherches de patchs		     //
 //	Auteur 		: Hervé Bordeau									 //
 // 	Date 		: 21/05/2013							     	 //
@@ -28,8 +28,8 @@ $c = openConnection();
 	$nbPatchs = getNumRows($patchs);
 	odbc_fetch_row($patchs, 0);
 
-		echo 'Patch : <select id="patcfilter" onchange="setFilter();">';
-		echo '<option value="all" id="filteroptall">Tous</option>';
+		echo 'Patch : <select id="patcfilter">';
+		echo '<option value="none" id="filteroptall"></option>';
 		//Rempli le select
 		while (odbc_fetch_row($patchs))
 		{

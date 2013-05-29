@@ -128,5 +128,6 @@ function commentEquals($a, $b)
 		$("#taskpart").keyup(function(){
 			verifTaskExists();
 		});
+		document.getElementById('filteroptall').innerText = '';
     };
 </script>

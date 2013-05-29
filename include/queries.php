@@ -73,11 +73,17 @@
 		alert(parm);
 		$("#listtask").load("listtask.php");
 	}
-	//Change la liste des patchs selon appli sélectionnée
+	//Change la liste des patchs selon appli sélectionnée : listtask
 	function chgfilterpatc()
 	{
 		var selectedAppli = document.getElementById('appfilter').options[document.getElementById('appfilter').selectedIndex].value;
 		ajax('filterpatc.php', '&codapp='+selectedAppli, refreshDisplayPatcFilter);
+	}
+	//Change la liste des patchs selon appli sélectionnée : createtask
+	function chgfilterpatc2()
+	{
+		var selectedAppli = document.getElementById('appfilter').options[document.getElementById('appfilter').selectedIndex].value;
+		ajax('filterpatc2.php', '&codapp='+selectedAppli, refreshDisplayPatcFilter);
 	}
 	//Dépendance AJAX de la fonction chgfilterpatc - Change dynamiquement la liste des patchs selon appli sélectionnée
 	function refreshDisplayPatcFilter(content)

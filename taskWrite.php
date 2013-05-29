@@ -46,21 +46,51 @@
 	{
 		$urgtask = '0';
 	}
-	$pubtask = '1';
 	$acttask = '1';
 	$dataskt = date('d.m.Y');
 	$codtypt = $_POST['selecttypt'];
-	$codprio = 2;
 	$getUser = execSQL($c, 'SELECT * FROM TAMGUSER WHERE NAMUSER LIKE \''.strtoupper($_SESSION['login']).'%\'');
+	if (isset($_POST['usersAffcStringList']))
+	{
+		$usersAffc = $_POST['usersAffcStringList'];
+		$usersAffc = explode(';', $usersAffc);
+	}
+	if (isset($_POST['taskpart']) && $_POST['taskpart'] != '')
+	{
+		$partask = $_POST['taskpart'];
+	}
+	else
+	{
+		$partask = NULL;
+	}
+	if (isset($_POST['patcfilter']))
+	{
+		$codpatc = $_POST['patcfilter'];
+	}
+	if (isset($_POST['selectprio']))
+	{
+		$codprio = $_POST['selectprio'];
+	}
+	else
+	{
+		$codprio = 2;
+	}
+	if (isset($_POST['taskpub']))
+	{
+		$pubtask = '0';
+	}
+	else
+	{
+		$pubtask = '1';
+	}
+	$codapp = $_POST['appfilter'];
 	$usersDest = $_POST['usersDestStringList'];
 	$usersDest = explode(';', $usersDest);
 	while (odbc_fetch_row($getUser))
 	{
 		$coduser = odbc_result($getUser, 'CODUSER');
 	}
-	$partask = NULL;
 	$codsts = $_POST['selectstat'];
-	
 	$duetask = str_replace('/', '.', $duetask);
 	
 	//Insert en DB : TAMGTASK
@@ -72,14 +102,35 @@
 	//Insert en DB : TAMGMODF
 	$stmt = odbc_prepare($c, 'INSERT INTO TAMGMODF (CODTASK, CODUSER, TSTPMOD) VALUES (?, ?, CURRENT_TIMESTAMP)');
 	$res = odbc_execute($stmt, array($maxID, $coduser));
+	//Si appli sélectionnée
+	if ($codapp != 'none')
+	{
+		//Insert en DB : TAMGAPTA
+		$stmt = odbc_prepare($c, 'INSERT INTO TAMGAPTA (CODTASK, CODAPP) VALUES (?, ?)');
+		$res = odbc_execute($stmt, array($maxID, $codapp));
+	}
+	//Si patch sélectionné
+	if (isset($codpatc) && $codpatc != 'none')
+	{
+		//Insert en DB : TAMGPATA
+		$stmt = odbc_prepare($c, 'INSERT INTO TAMGPATA (CODTASK, CODPATC) VALUES (?, ?)');
+		$res = odbc_execute($stmt, array($maxID, $codpatc));
+	}
 	//Insert en DB : TAMGDEST
 	foreach ($usersDest as $user)
 	{
 		$stmt = odbc_prepare($c, 'INSERT INTO TAMGDEST (CODTASK, CODUSER) VALUES (?, ?)');
 		$res = odbc_execute($stmt, array($maxID, $user));
 	}
-	
-	
+	//Insert en DB : TAMGAFFC
+	if (isset($usersAffc) && $usersAffc != '')
+	{
+		foreach ($usersAffc as $useraffc)
+		{
+			$stmt = odbc_prepare($c, 'INSERT INTO TAMGAFFC (CODTASK, CODUSER) VALUES (?, ?)');
+			$res = odbc_execute($stmt, array($maxID, $useraffc));
+		}
+	}
 	
 	//Fermeture connexion
 	closeConnection($c);
