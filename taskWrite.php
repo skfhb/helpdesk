@@ -63,9 +63,9 @@
 	{
 		$partask = NULL;
 	}
-	if (isset($_POST['patcfilter']))
+	if (isset($_POST['patcNb']))
 	{
-		$codpatc = $_POST['patcfilter'];
+		$codpatc = $_POST['patcNb'];
 	}
 	if (isset($_POST['selectprio']))
 	{
@@ -107,14 +107,14 @@
 	{
 		//Insert en DB : TAMGAPTA
 		$stmt = odbc_prepare($c, 'INSERT INTO TAMGAPTA (CODTASK, CODAPP) VALUES (?, ?)');
-		$res = odbc_execute($stmt, array($maxID, $codapp));
+		$res = odbc_execute($stmt, array($maxID, intval($codapp)));
 	}
 	//Si patch sélectionné
-	if (isset($codpatc) && $codpatc != 'none')
+	if (isset($codpatc) && $codpatc != 'none' && $codpatc != 'all')
 	{
 		//Insert en DB : TAMGPATA
 		$stmt = odbc_prepare($c, 'INSERT INTO TAMGPATA (CODTASK, CODPATC) VALUES (?, ?)');
-		$res = odbc_execute($stmt, array($maxID, $codpatc));
+		$res = odbc_execute($stmt, array($maxID, intval($codpatc)));
 	}
 	//Insert en DB : TAMGDEST
 	foreach ($usersDest as $user)
@@ -123,7 +123,7 @@
 		$res = odbc_execute($stmt, array($maxID, $user));
 	}
 	//Insert en DB : TAMGAFFC
-	if (isset($usersAffc) && $usersAffc != '')
+	if (isset($usersAffc) && $usersAffc[0] != '')
 	{
 		foreach ($usersAffc as $useraffc)
 		{

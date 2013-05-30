@@ -247,6 +247,7 @@
 				<?php
 				}
 			?>
+			<input type="hidden" id="patcNb" name="patcNb" value="" />
 			<input type="hidden" id="usersDestStringList" name="usersDestStringList" value="" />
 			<input type="hidden" id="usersAffcStringList" name="usersAffcStringList" value="" />
 			<input type="submit" value="Créer la tâche" style="width:100%;" onclick="return validNewTask();"/>

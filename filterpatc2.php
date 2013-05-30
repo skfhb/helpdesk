@@ -28,7 +28,7 @@ $c = openConnection();
 	$nbPatchs = getNumRows($patchs);
 	odbc_fetch_row($patchs, 0);
 
-		echo 'Patch : <select id="patcfilter">';
+		echo 'Patch : <select id="patcfilter" onchange="setPatchId()">';
 		echo '<option value="none" id="filteroptall"></option>';
 		//Rempli le select
 		while (odbc_fetch_row($patchs))

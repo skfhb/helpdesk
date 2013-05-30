@@ -90,6 +90,11 @@
 	{
 		document.getElementById('filterpatc').innerHTML = content;
 	}
+	//Copie l'ID du patch en input hidden pour le passer en POST (le form n'intègre pas le généré dynamiquement)
+	function setPatchId()
+	{
+		document.getElementById('patcNb').value = document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex].value;
+	}
 	//Applique les filtres
 	function setFilter()
 	{
