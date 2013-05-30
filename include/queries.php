@@ -84,6 +84,12 @@
 		var selectedAppli = document.getElementById('appfilter').options[document.getElementById('appfilter').selectedIndex].value;
 		ajax('filterpatc2.php', '&codapp='+selectedAppli, refreshDisplayPatcFilter);
 	}
+	//Change la liste des patchs selon appli sélectionnée : edittask
+	function chgfilterpatc3()
+	{
+		var selectedAppli = document.getElementById('appfilter').options[document.getElementById('appfilter').selectedIndex].value;
+		ajax('filterpatc3.php', '&codapp='+selectedAppli, refreshDisplayPatcFilter);
+	}
 	//Dépendance AJAX de la fonction chgfilterpatc - Change dynamiquement la liste des patchs selon appli sélectionnée
 	function refreshDisplayPatcFilter(content)
 	{
@@ -764,5 +770,36 @@
 	{
 		//Paramètre reçu toujours vide
 		loadPage('parlisttask.php')
+	}
+	//---------------EDIT TÂCHE---------------------
+	//Ajoute un destinataire
+	function addNewDest()
+	{
+	
+	}
+	//Retire un destinataire
+	function rmvNewDest()
+	{
+	
+	}
+	//Ajoute un utilisateur affecté
+	function addNewAffc()
+	{
+	
+	}
+	//Retire un utilisateur affecté
+	function rmvNewDest()
+	{
+	
+	}
+	//Ajoute un patch
+	function addNewPatc()
+	{
+	
+	}
+	//Retire un patch
+	function rmvNewPatc()
+	{
+	
 	}
 </script>

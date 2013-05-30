@@ -58,7 +58,7 @@
 		//Texte prio
 		define("_TXT_PRIO", "Tâche à ");
 		//Texte urgence
-		define("_TXT_URGENT", "URGENT");
+		define("_TXT_URGENT", "Urgent");
 		
 	// Constantes fonctionnelles de l'application
 		//Application par défaut d'affichage des patchs

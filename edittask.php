@@ -1,15 +1,36 @@
 <?php
 //---------------------------------------------------------------//
 //	Projet 		: Task Manager									 //
-//	Fichier 	: dettask.php 								 	 //
-//  Description : Page de gestion du détail d'une tâche 		 //
+//	Fichier 	: edittask.php 								 	 //
+//  Description : Page de modif d'une tâche 			 		 //
 //	Auteur 		: Hervé Bordeau									 //
-// 	Date 		: 15/02/2013							     	 //
+// 	Date 		: 30/05/2013							     	 //
 //---------------------------------------------------------------//
-//Dernière modif le 08/03/2013 par HB
+//Dernière modif le 30/05/2013 par HB
 	
-	session_start();
-	header('Content-Type: text/html; charset=iso-8859-1');
+	try
+	{
+		if(session_id() == '')
+		{
+			session_start();
+		}
+		
+		//Si warning, le gérer par la fonction "warning_handler"
+		set_error_handler("warning_handler", E_WARNING);
+		
+		//envoyer le header
+		header('Content-Type: text/html; charset=iso-8859-1');
+	}
+	catch (Exception $e)
+	{
+		//Rien à faire, la session a juste déjà été lancée
+	}
+	//Manage le warning du header déjà envoyé
+	function warning_handler($errno, $errstr) 
+	{ 
+			//Rien à faire, le header est juste déjà passé
+	}
+	
 	//- la définition des constantes de l'ensemble de l'application
 	include("include/cst.php");
 	//- la gestion de la couche d'accès aux données
@@ -95,14 +116,15 @@
 				$time_lastmodf = formatDate(odbc_result($lastmodf, 'TSTPMOD')).'</b> à <b>'.formatTime(odbc_result($lastmodf, 'TSTPMOD'));
 			}
 			//On regarde quelles applications sont concernées par la tâche
-			$sql = 'SELECT NAMAPP FROM TAMGAPPL WHERE CODAPP IN (SELECT CODAPP FROM TAMGAPTA WHERE CODTASK = '.$task_ID.')';
+			$sql = 'SELECT CODAPP, NAMAPP FROM TAMGAPPL WHERE CODAPP IN (SELECT CODAPP FROM TAMGAPTA WHERE CODTASK = '.$task_ID.')';
 			$apps = execSQL($c, $sql);
 			$nbApp = 0;
 			//Pour chaque appli
 			while (odbc_fetch_row($apps))
 			{
-				//On récupère le nom de l'appli
+				//On récupère le nom et l'id de l'appli
 				$app[$nbApp]['name'] = odbc_result($apps, 'NAMAPP');
+				$app[$nbApp]['id'] = odbc_result($apps, 'CODAPP');
 				//On initialise la variable comptant les patchs de cette appli concernés
 				$app[$nbApp]['nbPatch'] = 0;
 				//On récupère les patchs en question
@@ -137,84 +159,214 @@
 		</div>
 		<?php 
 			echo '<div id="typtask">';
-			echo $lblTypt; 
+			//Récup liste des types de tâche
+			$typts = execSQL($c, 'SELECT * FROM TAMGTYPT');
+			
+			echo '<select id="selectTypt" name="selecttypt">';
+			//Rempli le select
+			while (odbc_fetch_row($typts))
+			{
+				if (odbc_result($typts, 'CODTYPT') == $task_Codtypt)
+				{
+					echo '<option value="'.odbc_result($typts, 'CODTYPT').'" selected>'.odbc_result($typts, 'LBLTYPT').'</option>';
+				}
+				else
+				{
+					echo '<option value="'.odbc_result($typts, 'CODTYPT').'">'.odbc_result($typts, 'LBLTYPT').'</option>';
+				}
+			}
+			echo '</select>';
 			echo '</div>';
 		?>
 	</div>
 	<?php
 		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 		{
-			echo '<div id="modiftask" onclick="loadPage(\'edittask.php?id='.$task_ID.'\');setTimeout(function() { setDatePicker(); }, 400);">';
-			echo 'Modifier cette tâche';
+			echo '<div id="validmodtask" onclick="alert(\'Prochainement\');">';
+			echo 'Enregistrer les modifications';
 			echo '</div>';
 		}
 	?>
 	<div id="contentTask">
 		<div id="parenttask">
 			<?php 
-				if (isset($task_Partask) && $task_Partask != "")
-				{
-					echo 'Liée à la tâche '.$task_Partask.'<br /><br />';
-				}
-			?>
-		</div>
-		<?php
-			echo '<b>'.$task_Lbl.'</b><br /><br />';
-			echo '<img src="'._IMG_STAT.$activeStatutId.'.png" alt="" width="'._IMG_STAT_WIDTH.'" height="'._IMG_STAT_HEIGHT.'" /><b>   '.$activeStatutLbl.'</b><br /><br />';
-			if ($task_Pub == '1')
+			if (isset($task_Partask) && $task_Partask != '')
 			{
-				echo '<input type="checkbox" value="Public" disabled="disabled" /> Spécifique informatique<br /><br />';
+				echo 'Liée à la tâche <input type="text" name="taskpart" id="taskpart" value="'.$task_Partask.'" onkeypress="verifTaskExists();" onkeyup="verifTaskExists();" /><img src="resources/statuts/all.png" id="isTaskPartOk" width="16" height="16" /><br /><br />';
 			}
 			else
 			{
-				echo '<input type="checkbox" value="Public" disabled="disabled" checked /><b> Spécifique informatique</b><br /><br />';
+				echo 'Liée à la tâche <input type="text" name="taskpart" id="taskpart" value="" onkeypress="verifTaskExists();" onkeyup="verifTaskExists();" /><img src="resources/statuts/all.png" id="isTaskPartOk" width="16" height="16" /><br /><br />';
+			}
+			?>
+		</div>
+		<?php
+			echo '<input type="text" name="newLbl" id="newLbl" style="width:100%;" value="'.trim($task_Lbl).'" /><br /><br />';
+			//Récup liste des statuts
+			$stats = execSQL($c, 'SELECT * FROM TAMGSTAT');
+			echo '<img src="'._IMG_STAT.$activeStatutId.'.png" id="imgstat" alt="" width="'._IMG_STAT_WIDTH.'" height="'._IMG_STAT_HEIGHT.'" />';
+			echo '<select id="selectStat" name="selectstat" style="width:150px;" onchange="document.getElementById(\'imgstat\').src=\''._IMG_STAT.'\' + document.getElementById(\'selectStat\').options[document.getElementById(\'selectStat\').selectedIndex].value + \'.png\'">';
+			//Rempli le select
+			while (odbc_fetch_row($stats))
+			{
+				if (odbc_result($stats, 'CODSTS') == $activeStatutId)
+				{
+					echo '<option value="'.odbc_result($stats, 'CODSTS').'" selected>'.trim(odbc_result($stats, 'LBLSTS')).'</option>';
+				}
+				else
+				{
+					echo '<option value="'.odbc_result($stats, 'CODSTS').'">'.trim(odbc_result($stats, 'LBLSTS')).'</option>';
+				}
+			}
+			echo '</select><br /><br />';
+			
+			if ($task_Pub == '1')
+			{
+				echo '<input type="checkbox" name="newPub" id="newPub" value="Public" /> Spécifique informatique<br /><br />';
+			}
+			else
+			{
+				echo '<input type="checkbox" value="Public" name="newPub" id="newPub" checked /><b> Spécifique informatique</b><br /><br />';
 			}
 			echo 'Demandé par <b>'.$user_asker.'</b> le <b>'.formatDate($task_Ask).'</b><br /><br />';
 			echo '<table><tr><td style="text-align:left;">Pour :</td><td style="text-align:left;">Pris en charge par :</td></tr>';
-			while ($nbAffc > 0 || $nbDest > 0)
+			echo '<tr><td><div id="finalDest">';
+			while ($nbDest > 0)
 			{
-				echo '<tr><td>';
-				if ($nbDest > 0)
-				{
-					echo '<b><li>'.$user_dest[$nbDest-1].'</li></b>';
-					$nbDest--;
-				}
-				echo '</td><td>';
-				if ($nbAffc > 0)
-				{
-					echo '<b><li>'.$user_affc[$nbAffc-1].'</li></b>';
-					$nbAffc--;
-				}
-				echo '</td></tr>';
+				echo '<div class="userDest" onclick="focusUserDest(this);">'.$user_dest[$nbDest-1].'</div>';
+				$nbDest--;
 			}
-			while ($nbApp > 0)
+			echo '</div>';
+			echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" />';
+			echo '&nbsp;';
+			echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" />';
+			echo '&nbsp;';
+			echo '<select id="selectnewdest" id="selectnewdest" style="width:180px;">';
+			//Récup liste des applis
+			$usrs = execSQL($c, 'SELECT * FROM TAMGUSER ORDER BY NAMUSER');
+						
+			//Rempli le select
+			while (odbc_fetch_row($usrs))
 			{
-				$toWrite = '<tr><td style="text-align:left;">'._TXT_TASK_APPLI.'<b>'.$app[$nbApp-1]['name'].'</b></td>';
-				while ($app[$nbApp-1]['nbPatch'] > 1)
+				foreach ($user_dest as $usr)
 				{
-					$toWrite .= '<td style="text-align:left;">'._TXT_TASK_PATCH.'<b>'.$app[$nbApp-1][$app[$nbApp-1]['nbPatch']-1].'</b></td></tr><tr><td></td>';
-					$app[$nbApp-1]['nbPatch']--;
+					if (odbc_result($usrs, 'NAMUSER') == $usr)
+					{
+						$founduser = true;
+					}
 				}
-				if ($app[$nbApp-1]['nbPatch'] == 1)
+				if (!$founduser)
 				{
-					$toWrite .= '<td style="text-align:left;">'._TXT_TASK_PATCH.'<b>'.$app[$nbApp-1][$app[$nbApp-1]['nbPatch']-1].'</b></td></tr>';
+					echo '<option value="'.odbc_result($usrs, 'CODUSER').'">'.odbc_result($usrs, 'NAMUSER').'</option>';
 				}
-				echo $toWrite;
-				$nbApp--;
+				$founduser = false;
 			}
+			echo '</select>';
+			echo '</td><td>';
+			echo '<div id="finalAffc">';
+			while ($nbAffc > 0)
+			{
+				echo '<div class="userAffc" onclick="focusUserAffc(this);">'.$user_affc[$nbAffc-1].'</div>';
+				$nbAffc--;
+			}
+			echo '</div>';
+			echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" />';
+			echo '&nbsp;';
+			echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" />';
+			echo '&nbsp;';
+			echo '<select id="selectnewaffc" id="selectnewaffc" style="width:180px;">';
+			//Récup liste des applis
+			$usrs = execSQL($c, 'SELECT * FROM TAMGUSER ORDER BY NAMUSER');
+						
+			//Rempli le select
+			while (odbc_fetch_row($usrs))
+			{
+				foreach ($user_affc as $usr)
+				{
+					if (odbc_result($usrs, 'NAMUSER') == $usr)
+					{
+						$founduser = true;
+					}
+				}
+				if (!$founduser)
+				{
+					echo '<option value="'.odbc_result($usrs, 'CODUSER').'">'.odbc_result($usrs, 'NAMUSER').'</option>';
+				}
+				$founduser = false;
+			}
+			echo '</select>';
+			echo '</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>';
+			echo '</td></tr><tr><td>&nbsp;</td><td>Patch : </td></tr>';
+			echo '<tr><td>';
+			echo _TXT_TASK_APPLI.'<select id="appfilter" name="appfilter" style="width:150px;" onchange="chgfilterpatc3();">';
+			echo '<option value="none"></option>';
+			//Récup liste des applis
+			$apps = execSQL($c, 'SELECT * FROM TAMGAPPL');
+						
+			//Rempli le select
+			while (odbc_fetch_row($apps))
+			{
+				if (isset($app[0]['id']) && odbc_result($apps, 'CODAPP') == $app[0]['id'])
+				{
+					echo '<option value="'.odbc_result($apps, 'CODAPP').'" selected>'.odbc_result($apps, 'NAMAPP').'</option>';
+				}
+				else
+				{
+					echo '<option value="'.odbc_result($apps, 'CODAPP').'">'.odbc_result($apps, 'NAMAPP').'</option>';
+				}
+			}
+			echo '</select>';
+			echo '</td><td>';
+			echo '<div id="finalPatc">';
+			
+			echo '</div>';
+			echo '<div id="filterpatc">';
+			$_GET['codapp'] = $app[0]['id'];
+			include('filterpatc3.php');
+			echo '</div>';
+			echo '</td></tr>';
 			echo '</table><br />';
+			echo '<br /><br />';
 			echo _TXT_LASTMOD.'<b>'.$time_lastmodf.'</b> par <b>'.$user_lastmodf.'</b><br /><br />';
-			echo _TXT_PRIO.'<b>'.$lblPrio.'</b><br /><br />';
+			echo _TXT_PRIO.'<select id="newprio" name="newprio" style="width:150px;">';
+			//Récup liste des applis
+			$prios = execSQL($c, 'SELECT * FROM TAMGPRIO');
+						
+			//Rempli le select
+			while (odbc_fetch_row($prios))
+			{
+				if (isset($task_Codprio) && odbc_result($prios, 'CODPRIO') == $task_Codprio)
+				{
+					echo '<option value="'.odbc_result($prios, 'CODPRIO').'" selected>'.odbc_result($prios, 'VALPRIO').'</option>';
+				}
+				else
+				{
+					echo '<option value="'.odbc_result($prios, 'CODPRIO').'">'.odbc_result($prios, 'VALPRIO').'</option>';
+				}
+			}
+			echo '</select><br /><br />';
 			if ($task_Urg == '1')
 			{
-				echo '<img src="'._IMG_STYLE.'icone-urgent.png" alt="Urgent" width="'._IMG_STAT_WIDTH.'" height="'._IMG_STAT_HEIGHT.'" /> <font style="color:red;"><b>'._TXT_URGENT.'</b></font>';
+				echo '<input type="checkbox" name="newurg" id="newurg" checked /><font style="font-weight:bold;color:#FF0000;"> Urgent</font>';
+				echo '<br />';
+			}
+			else
+			{
+				echo '<input type="checkbox" name="newurg" id="newurg" /><font style="font-weight:bold;color:#FF0000;"> Urgent</font>';
 				echo '<br />';
 			}
 			if ($task_Due <> '')
 			{
-				echo '&Eacute;ch&eacute;ance au <b>'.formatDate($task_Due).'</b>';
+				echo '&Eacute;ch&eacute;ance au <input type="text" name="dateecheance" id="datepicker" value="'.formatDate($task_Due).'" />';
 			}
-			echo '<br /><br />';			
+			else
+			{
+				echo '&Eacute;ch&eacute;ance au <input type="text" name="dateecheance" id="datepicker" value="" />';
+			}
+			echo '<br /><br />';	
+			echo '<input type="hidden" name="newlistaffc" id="newlistaffc" value="" />';
+			echo '<input type="hidden" name="newlistdest" id="newlistdest" value="" />';
+			echo '<input type="hidden" name="newlistpatc" id="newlistpatc" value="" />';
 		?>
 	</div>
 	<?php

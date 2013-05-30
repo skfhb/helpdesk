@@ -163,6 +163,24 @@ body
 	border-radius : 10px;
 }
 
+#validmodtask
+{
+	position : relative;
+	top : 88px;
+	width : 500px;
+	border : 1px #3BD487 solid;
+	background-color : #3BD487;
+	padding : 5px;
+	margin-bottom : 5px;
+	text-align : center;
+	font-weight : bold;
+	color : #000000;
+	cursor : pointer;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
 #deletetask
 {
 	position : relative;
@@ -193,6 +211,17 @@ body
 }
 
 #finalAffc
+{
+	border : 1px solid;
+	border-color : #0066D0;
+	background-color : #FFFFFF;
+	padding : 5px;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
+#finalPatc
 {
 	border : 1px solid;
 	border-color : #0066D0;
