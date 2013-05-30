@@ -169,21 +169,21 @@ elseif ($_POST['tab'] == 'search')
 	echo 'Par num&eacute;ro de t&acirc;che : ';
 	if (isset($_SESSION['F_CODTSK']))
 	{
-		echo '<input type="text" name="searchbytasknb" id="searchbytasknb" value="'.$_SESSION['F_CODTSK'].'" />';
+		echo '<input type="text" name="searchbytasknb" id="searchbytasknb" value="'.$_SESSION['F_CODTSK'].'" onkeypress="if (event.keyCode == 13) searchlisttask();" />';
 	}
 	else
 	{
-		echo '<input type="text" name="searchbytasknb" id="searchbytasknb" value="" />';
+		echo '<input type="text" name="searchbytasknb" id="searchbytasknb" value="" onkeypress="if (event.keyCode == 13) searchlisttask();" />';
 	}
 	echo '<br /><br />';
 	echo 'Par libell&eacute; contenant : ';
 	if (isset($_SESSION['F_LBLTSK']))
 	{
-		echo '<input type="text" name="searchbytasklbl" id="searchbytasklbl" value="'.$_SESSION['F_LBLTSK'].'" />';
+		echo '<input type="text" name="searchbytasklbl" id="searchbytasklbl" value="'.$_SESSION['F_LBLTSK'].'" onkeypress="if (event.keyCode == 13) searchlisttask();" />';
 	}
 	else
 	{
-		echo '<input type="text" name="searchbytasklbl" id="searchbytasklbl" value="" />';
+		echo '<input type="text" name="searchbytasklbl" id="searchbytasklbl" value="" onkeypress="if (event.keyCode == 13) searchlisttask();" />';
 	}
 	echo '<br />';
 	echo '<i><font style="font-size:0.75em;">Sensible &agrave; la casse</font></i>';

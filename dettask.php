@@ -132,14 +132,6 @@
 <div id="task">
 	<div id="headerTask">
 	<!-- Gestion design header en CSS -->
-		<div id="parenttask">
-			<?php 
-				if (isset($task_Partask) && $task_Partask != "")
-				{
-					echo 'Liée à la tâche '.$task_Partask;
-				}
-			?>
-		</div>
 		<div id="idtask">
 			<?php echo 'Tâche n°'.$task_ID; ?>
 		</div>
@@ -165,6 +157,14 @@
 		}
 	?>
 	<div id="contentTask">
+		<div id="parenttask">
+			<?php 
+				if (isset($task_Partask) && $task_Partask != "")
+				{
+					echo 'Liée à la tâche '.$task_Partask.'<br /><br />';
+				}
+			?>
+		</div>
 		<?php
 			echo '<b>'.$task_Lbl.'</b><br /><br />';
 			echo '<img src="'._IMG_STAT.$activeStatutId.'.png" alt="" width="'._IMG_STAT_WIDTH.'" height="'._IMG_STAT_HEIGHT.'" /><b>   '.$activeStatutLbl.'</b><br /><br />';

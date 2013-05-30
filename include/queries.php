@@ -70,7 +70,6 @@
 	//Rafraîchit la liste des tâches
 	function refreshlisttask(parm)
 	{
-		alert(parm);
 		$("#listtask").load("listtask.php");
 	}
 	//Change la liste des patchs selon appli sélectionnée : listtask
@@ -760,10 +759,10 @@
 		}
 	}
 	
-	//Fonction pour AJAX redirigeant sur listtask après del d'une tâche
+	//Fonction pour AJAX redirigeant sur parlisttask après del d'une tâche
 	function redirectAfterDelete(parm)
 	{
 		//Paramètre reçu toujours vide
-		loadPage('listtask.php')
+		loadPage('parlisttask.php')
 	}
 </script>

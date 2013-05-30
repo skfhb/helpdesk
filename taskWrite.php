@@ -110,7 +110,7 @@
 		$res = odbc_execute($stmt, array($maxID, intval($codapp)));
 	}
 	//Si patch sélectionné
-	if (isset($codpatc) && $codpatc != 'none' && $codpatc != 'all')
+	if (isset($codpatc) && $codpatc != 'none' && $codpatc != 'all' && $codpatc != '')
 	{
 		//Insert en DB : TAMGPATA
 		$stmt = odbc_prepare($c, 'INSERT INTO TAMGPATA (CODTASK, CODPATC) VALUES (?, ?)');
