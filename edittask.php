@@ -239,7 +239,7 @@
 			echo '</div>';
 			echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" />';
 			echo '&nbsp;';
-			echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" />';
+			echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" onclick="addNewDest();" />';
 			echo '&nbsp;';
 			echo '<select id="selectnewdest" id="selectnewdest" style="width:180px;">';
 			//Récup liste des applis

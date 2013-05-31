@@ -775,7 +775,9 @@
 	//Ajoute un destinataire
 	function addNewDest()
 	{
-	
+		var newDestID = document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex].value;
+		var newDestLbl = document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex].innerText;
+		document.getElementById('finalDest').innerHTML += '<div class="userDest" onclick="focusUserDest(this);">'+newDestLbl+'</div>';
 	}
 	//Retire un destinataire
 	function rmvNewDest()
