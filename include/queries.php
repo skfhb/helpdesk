@@ -951,4 +951,25 @@
 		str = str.substring(0, str.length-1);
 		document.getElementById('newlistpatc').value = str;
 	}
+	//
+	function validEditTask()
+	{
+		var isValid = true;
+		if (document.getElementById('newLbl').value == '')
+		{
+			document.getElementById('newLbl').style.backgroundColor = '#FF5353';
+			isValid = false;
+		}
+		if (document.getElementById('newlistdest').value == '')
+		{
+			document.getElementById('finalDest').style.backgroundColor = '#FF5353';
+			isValid = false;
+		}
+		if (isValid)
+		{
+			document.modTask.submit();
+		}
+		
+		return isValid;
+	}
 </script>

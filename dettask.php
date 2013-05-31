@@ -53,7 +53,7 @@
 				$lblTypt = odbc_result($typts, 'LBLTYPT');
 			}
 			//On fait le lien avec les statuts pour obtenir une chaîne et non un simple ID, après avoir récupéré le statut actuel
-			$sql = 'SELECT * FROM TAMGSTAT WHERE CODSTS IN (SELECT CODSTS FROM TAMGHSTS WHERE CODTASK = '.$task_ID.' ORDER BY TSTPSTS DESC)';
+			$sql = 'SELECT * FROM TAMGSTAT WHERE CODSTS IN (SELECT CODSTS FROM TAMGHSTS WHERE CODTASK = '.$task_ID.' ORDER BY TSTPSTS DESC FETCH FIRST 1 ROW ONLY)';
 			$statut = execSQL($c, $sql);
 			while (odbc_fetch_row($statut))
 			{

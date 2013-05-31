@@ -74,7 +74,7 @@
 				$lblTypt = odbc_result($typts, 'LBLTYPT');
 			}
 			//On fait le lien avec les statuts pour obtenir une chaîne et non un simple ID, après avoir récupéré le statut actuel
-			$sql = 'SELECT * FROM TAMGSTAT WHERE CODSTS IN (SELECT CODSTS FROM TAMGHSTS WHERE CODTASK = '.$task_ID.' ORDER BY TSTPSTS DESC)';
+			$sql = 'SELECT * FROM TAMGSTAT WHERE CODSTS IN (SELECT CODSTS FROM TAMGHSTS WHERE CODTASK = '.$task_ID.' ORDER BY TSTPSTS DESC FETCH FIRST 1 ROW ONLY)';
 			$statut = execSQL($c, $sql);
 			while (odbc_fetch_row($statut))
 			{
@@ -162,6 +162,7 @@
 		</div>
 		<?php 
 			echo '<div id="typtask">';
+			echo '<form id="newTaskForm" name="modTask" enctype="multipart/form-data" action="taskEdit.php" method="post" target="taskEdit" onsubmit="return validEditTask();">';
 			//Récup liste des types de tâche
 			$typts = execSQL($c, 'SELECT * FROM TAMGTYPT');
 			
@@ -185,7 +186,7 @@
 	<?php
 		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 		{
-			echo '<div id="validmodtask" onclick="updateNewDestUsers();updateNewAffcUsers();updateNewAffcPatcs();alert(\'Prochainement\');">';
+			echo '<div id="validmodtask" onclick="updateNewDestUsers();updateNewAffcUsers();updateNewAffcPatcs();validEditTask();">';
 			echo 'Enregistrer les modifications';
 			echo '</div>';
 		}
@@ -371,11 +372,14 @@
 				echo '&Eacute;ch&eacute;ance au <input type="text" name="dateecheance" id="datepicker" value="" />';
 			}
 			echo '<br /><br />';	
+			echo '<input type="hidden" name="taskid" id="taskid" value="'.$task_ID.'" />';
 			echo '<input type="hidden" name="newlistaffc" id="newlistaffc" value="" />';
 			echo '<input type="hidden" name="newlistdest" id="newlistdest" value="" />';
 			echo '<input type="hidden" name="newlistpatc" id="newlistpatc" value="" />';
 			echo '<input type="hidden" name="actindex" id="actindex" value="" />';
 		?>
+		</form>
+		<iframe style="height:80px;border:0px;" name="taskEdit" seamless></iframe>
 	</div>
 	<?php
 		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])

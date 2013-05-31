@@ -252,5 +252,5 @@
 			<input type="hidden" id="usersAffcStringList" name="usersAffcStringList" value="" />
 			<input type="submit" value="Créer la tâche" style="width:100%;" onclick="return validNewTask();"/>
 		</form>
-		<iframe style="height:80px;border:0px;" name="taskWrite" seamless></iframe>
+		<iframe style="height:1px;border:0px;" name="taskWrite" seamless></iframe>
 	</div>
