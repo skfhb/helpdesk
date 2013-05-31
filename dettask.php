@@ -144,7 +144,7 @@
 	<?php
 		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 		{
-			echo '<div id="modiftask" onclick="loadPage(\'edittask.php?id='.$task_ID.'\');setTimeout(function() { setDatePicker(); }, 400);">';
+			echo '<div id="modiftask" onclick="loadPage(\'edittask.php?id='.$task_ID.'\');setTimeout(function() { setDatePicker2(); }, 1000);">';
 			echo 'Modifier cette tâche';
 			echo '</div>';
 		}
