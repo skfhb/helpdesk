@@ -6,7 +6,7 @@
 //	Auteur 		: Hervé Bordeau								  //
 // 	Date 		: 12/02/2013							      //
 //------------------------------------------------------------//
-//Dernière modif le 12/02/2013 par HB
+//Dernière modif le 31/05/2013 par HB
 
 ?>
 <script>
@@ -691,7 +691,7 @@
 		}
 		if ((dests.length == 0) || !(inserted))
 		{
-			document.getElementById('selectAffc').appendChild(opt);
+			document.getElementById('selectDest').appendChild(opt);
 		}
 		document.getElementById('finalDest').removeChild(toRemove[0]);
 		updateDestUsers();
@@ -778,30 +778,135 @@
 		var newDestID = document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex].value;
 		var newDestLbl = document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex].innerText;
 		document.getElementById('finalDest').innerHTML += '<div class="userDest" onclick="focusUserDest(this);">'+newDestLbl+'</div>';
+		document.getElementById('selectnewdest').removeChild(document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex]);
 	}
 	//Retire un destinataire
 	function rmvNewDest()
 	{
-	
+		var toRemove = document.getElementsByClassName('selectedUserDest');
+		var opt=document.createElement("option");
+		var text=document.createTextNode(toRemove[0].innerText);
+		var inserted = false;
+		opt.setAttribute("value", toRemove[0].innerText);
+		opt.appendChild(text);
+		
+		var dests = document.getElementById('selectnewdest').options;
+		for (var i = 0 ; i < dests.length ; i++)
+		{
+			if ((toRemove[0].innerText < dests[i].innerText) && !(inserted))
+			{
+				document.getElementById('selectnewdest').insertBefore(opt, dests[i]);
+				inserted = true;
+			}
+		}
+		if ((dests.length == 0) || !(inserted))
+		{
+			document.getElementById('selectnewdest').appendChild(opt);
+		}
+		document.getElementById('finalDest').removeChild(toRemove[0]);
+		//updateDestUsers();
 	}
 	//Ajoute un utilisateur affecté
 	function addNewAffc()
 	{
-	
+		var newDestID = document.getElementById('selectnewaffc').options[document.getElementById('selectnewaffc').selectedIndex].value;
+		var newDestLbl = document.getElementById('selectnewaffc').options[document.getElementById('selectnewaffc').selectedIndex].innerText;
+		document.getElementById('finalAffc').innerHTML += '<div class="userAffc" onclick="focusUserAffc(this);">'+newDestLbl+'</div>';
+		document.getElementById('selectnewaffc').removeChild(document.getElementById('selectnewaffc').options[document.getElementById('selectnewaffc').selectedIndex]);
 	}
 	//Retire un utilisateur affecté
-	function rmvNewDest()
+	function rmvNewAffc()
 	{
-	
+		var toRemove = document.getElementsByClassName('selectedUserAffc');
+		var opt=document.createElement("option");
+		var text=document.createTextNode(toRemove[0].innerText);
+		var inserted = false;
+		opt.setAttribute("value", toRemove[0].innerText);
+		opt.appendChild(text);
+		
+		var dests = document.getElementById('selectnewaffc').options;
+		for (var i = 0 ; i < dests.length ; i++)
+		{
+			if ((toRemove[0].innerText < dests[i].innerText) && !(inserted))
+			{
+				document.getElementById('selectnewaffc').insertBefore(opt, dests[i]);
+				inserted = true;
+			}
+		}
+		if ((dests.length == 0) || !(inserted))
+		{
+			document.getElementById('selectnewaffc').appendChild(opt);
+		}
+		document.getElementById('finalAffc').removeChild(toRemove[0]);
 	}
 	//Ajoute un patch
 	function addNewPatc()
 	{
-	
+		var newDestID = document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex].value;
+		var newDestLbl = document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex].innerText;
+		document.getElementById('finalPatc').innerHTML += '<div class="patcAffc" onclick="focusPatcAffc(this);">'+newDestLbl+'</div>';
+		document.getElementById('patcfilter').removeChild(document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex]);
 	}
 	//Retire un patch
 	function rmvNewPatc()
 	{
-	
+		var toRemove = document.getElementsByClassName('selectedPatcAffc');
+		var opt=document.createElement("option");
+		var text=document.createTextNode(toRemove[0].innerText);
+		var inserted = false;
+		opt.setAttribute("value", toRemove[0].innerText);
+		opt.appendChild(text);
+		
+		var dests = document.getElementById('patcfilter').options;
+		for (var i = 0 ; i < dests.length ; i++)
+		{
+			if ((toRemove[0].innerText < dests[i].innerText) && !(inserted))
+			{
+				document.getElementById('patcfilter').insertBefore(opt, dests[i]);
+				inserted = true;
+			}
+		}
+		if ((dests.length == 0) || !(inserted))
+		{
+			document.getElementById('patcfilter').appendChild(opt);
+		}
+		document.getElementById('finalPatc').removeChild(toRemove[0]);
+	}
+	//Gère l'affichage de sélection d'un utilisateur dans la liste des affcs
+	function focusPatcAffc(u)
+	{
+		u.className = 'selectedPatcAffc';
+		var users = document.getElementsByClassName('selectedPatcAffc');
+		for (var i = 0 ; i < users.length ; i++)
+		{
+			if (users[i] != u)
+			{
+				users[i].className = 'patcAffc';
+			}
+		}
+	}
+	//Récupère l'index de l'option sélectionnée actuellement dans le select de l'appli
+	function getActIndex()
+	{
+		document.getElementById('actindex').value = document.getElementById('appfilter').selectedIndex;
+	}
+	//Prévient l'utilisateur qu'en cas de changement d'appli => RAZ des patchs
+	function alertBeforeEmptyPatcLst()
+	{
+		if(confirm('Attention ! Si vous changez l\'application, la liste des patchs sera remise à zéro.'))
+		{
+			emptyPatcAffcLst();
+			chgfilterpatc3();
+		}
+		else
+		{
+			document.getElementById('appfilter').selectedIndex = document.getElementById('actindex').value;
+		}
+	}
+	//Vide la liste des patchs affectés si changement d'appli
+	function emptyPatcAffcLst()
+	{
+		var lst = document.getElementById('finalPatc');
+		lst.innerHTML = '';
 	}
 </script>

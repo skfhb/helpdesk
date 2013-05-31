@@ -237,7 +237,7 @@
 				$nbDest--;
 			}
 			echo '</div>';
-			echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" />';
+			echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" onclick="rmvNewDest();" />';
 			echo '&nbsp;';
 			echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" onclick="addNewDest();" />';
 			echo '&nbsp;';
@@ -270,9 +270,9 @@
 				$nbAffc--;
 			}
 			echo '</div>';
-			echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" />';
+			echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" onclick="rmvNewAffc();" />';
 			echo '&nbsp;';
-			echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" />';
+			echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" onclick="addNewAffc();" />';
 			echo '&nbsp;';
 			echo '<select id="selectnewaffc" id="selectnewaffc" style="width:180px;">';
 			//Récup liste des applis
@@ -298,7 +298,7 @@
 			echo '</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr>';
 			echo '</td></tr><tr><td>&nbsp;</td><td>Patch : </td></tr>';
 			echo '<tr><td>';
-			echo _TXT_TASK_APPLI.'<select id="appfilter" name="appfilter" style="width:150px;" onchange="chgfilterpatc3();">';
+			echo _TXT_TASK_APPLI.'<select id="appfilter" name="appfilter" style="width:150px;" onclick="getActIndex();" onfocus="getActIndex();" onchange="alertBeforeEmptyPatcLst();">';
 			echo '<option value="none"></option>';
 			//Récup liste des applis
 			$apps = execSQL($c, 'SELECT * FROM TAMGAPPL');
@@ -367,6 +367,7 @@
 			echo '<input type="hidden" name="newlistaffc" id="newlistaffc" value="" />';
 			echo '<input type="hidden" name="newlistdest" id="newlistdest" value="" />';
 			echo '<input type="hidden" name="newlistpatc" id="newlistpatc" value="" />';
+			echo '<input type="hidden" name="actindex" id="actindex" value="" />';
 		?>
 	</div>
 	<?php

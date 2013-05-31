@@ -481,3 +481,33 @@ body
 	-moz-border-radius : 5px;
 	border-radius : 5px;
 }
+
+.patcAffc
+{
+	color : #000000;
+	background-color : #FFFFFF;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.patcAffc:hover
+{
+	color : #000000;
+	background-color : #BBD9F8;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.selectedPatcAffc
+{
+	color : #FFFFFF;
+	background-color : #0066D0;
+	text-align : center;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}

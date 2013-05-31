@@ -6,7 +6,7 @@
 //	Auteur 		: Hervé Bordeau									 //
 // 	Date 		: 30/05/2013							     	 //
 //---------------------------------------------------------------//
-//Dernière modif le 30/05/2013 par HB
+//Dernière modif le 31/05/2013 par HB
 
 header('Content-Type: text/html; charset=iso-8859-1');	
 //- la définition des constantes de l'ensemble de l'application
@@ -32,9 +32,9 @@ $c = openConnection();
 	$nbPatchs = getNumRows($patchs);
 	odbc_fetch_row($patchs, 0);
 
-		echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" />';
+		echo '<img src="resources/style/cross.png" alt="X" style="cursor:pointer;" width="16" height="16" onclick="rmvNewPatc();" />';
 		echo '&nbsp;';
-		echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" />';
+		echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" onclick="addNewPatc();" />';
 		echo '&nbsp;';
 		echo '<select id="patcfilter" onchange="setPatchId()">';
 		echo '<option value="none" id="filteroptall"></option>';
