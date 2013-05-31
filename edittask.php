@@ -237,7 +237,7 @@
 			echo '<tr><td><div id="finalDest">';
 			while ($nbDest > 0)
 			{
-				echo '<input type="hidden" class="hiddenuser" value="'.$user_dest_id[$nbDest-1].'" /><div class="userDest" onclick="focusUserDest(this);">'.$user_dest[$nbDest-1].'</div>';
+				echo '<div class="userDest" onclick="focusUserDest(this);"><input type="hidden" class="hiddenuser" value="'.$user_dest_id[$nbDest-1].'" />'.$user_dest[$nbDest-1].'</div>';
 				$nbDest--;
 			}
 			echo '</div>';
@@ -270,7 +270,7 @@
 			echo '<div id="finalAffc">';
 			while ($nbAffc > 0)
 			{
-				echo '<input type="hidden" class="hiddenuseraffc" value="'.$user_affc_id[$nbAffc-1].'" /><div class="userAffc" onclick="focusUserAffc(this);">'.$user_affc[$nbAffc-1].'</div>';
+				echo '<div class="userAffc" onclick="focusUserAffc(this);"><input type="hidden" class="hiddenuseraffc" value="'.$user_affc_id[$nbAffc-1].'" />'.$user_affc[$nbAffc-1].'</div>';
 				$nbAffc--;
 			}
 			echo '</div>';
@@ -280,7 +280,7 @@
 			echo '&nbsp;';
 			echo '<select id="selectnewaffc" id="selectnewaffc" style="width:180px;">';
 			//Récup liste des applis
-			$usrs = execSQL($c, 'SELECT * FROM TAMGUSER ORDER BY NAMUSER');
+			$usrs = execSQL($c, 'SELECT * FROM TAMGUSER WHERE ADMUSER = 1 ORDER BY NAMUSER');
 						
 			//Rempli le select
 			while (odbc_fetch_row($usrs))
@@ -324,7 +324,7 @@
 			echo '<div id="finalPatc">';
 			while ($app[0]['nbPatch'] > 0)
 			{
-				echo '<input type="hidden" class="hiddenpatc" value="'.$patc[$app[0]['nbPatch']-1].'" /><div class="userAffc" onclick="focusUserAffc(this);">'.$app[0][$app[0]['nbPatch']-1].'</div>';
+				echo '<div class="patcAffc" onclick="focusPatcAffc(this);"><input type="hidden" class="hiddenpatc" value="'.$patc[$app[0]['nbPatch']-1].'" />'.$app[0][$app[0]['nbPatch']-1].'</div>';
 				$app[0]['nbPatch']--;
 			}
 			echo '</div>';
@@ -379,7 +379,7 @@
 			echo '<input type="hidden" name="actindex" id="actindex" value="" />';
 		?>
 		</form>
-		<iframe style="height:80px;border:0px;" name="taskEdit" seamless></iframe>
+		<iframe style="height:1px;border:0px;" name="taskEdit" seamless></iframe>
 	</div>
 	<?php
 		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])

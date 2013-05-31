@@ -578,11 +578,11 @@
 		var name = document.getElementById('selectAffc').options[document.getElementById('selectAffc').selectedIndex].innerText;
 		if (document.getElementById('finalAffc').innerText == '')
 		{
-			document.getElementById('finalAffc').innerHTML = '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuseraffc" value="'+trim(toAdd)+'" /><div class="userAffc" onclick="focusUserAffc(this);">' + trim(name) + '</div>';
+			document.getElementById('finalAffc').innerHTML = '<div class="userAffc" onclick="focusUserAffc(this);"><input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuseraffc" value="'+trim(toAdd)+'" />' + trim(name) + '</div>';
 		}
 		else
 		{
-			document.getElementById('finalAffc').innerHTML += '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuseraffc" value="'+trim(toAdd)+'" /><div class="userAffc" onclick="focusUserAffc(this);">' + trim(name) + '</div>';
+			document.getElementById('finalAffc').innerHTML += '<div class="userAffc" onclick="focusUserAffc(this);"><input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuseraffc" value="'+trim(toAdd)+'" />' + trim(name) + '</div>';
 		}
 		var dests = document.getElementById('selectAffc').options;
 		for (var i = 0 ; i < dests.length ; i++)
@@ -602,7 +602,7 @@
 		var opt=document.createElement("option");
 		var text=document.createTextNode(toRemove[0].innerText);
 		var inserted = false;
-		opt.setAttribute("value", toRemove[0].innerText);
+		opt.setAttribute("value", toRemove[0].getElementsByClassName('hiddenuseraffc')[0].value);
 		opt.appendChild(text);
 		
 		var dests = document.getElementById('selectAffc').options;
@@ -653,11 +653,11 @@
 		var name = document.getElementById('selectDest').options[document.getElementById('selectDest').selectedIndex].innerText;
 		if (document.getElementById('finalDest').innerText == '')
 		{
-			document.getElementById('finalDest').innerHTML = '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuser" value="'+trim(toAdd)+'" /><div class="userDest" onclick="focusUserDest(this);">' + trim(name) + '</div>';
+			document.getElementById('finalDest').innerHTML = '<div class="userDest" onclick="focusUserDest(this);"><input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuser" value="'+trim(toAdd)+'" />' + trim(name) + '</div>';
 		}
 		else
 		{
-			document.getElementById('finalDest').innerHTML += '<input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuser" value="'+trim(toAdd)+'" /><div class="userDest" onclick="focusUserDest(this);">' + trim(name) + '</div>';
+			document.getElementById('finalDest').innerHTML += '<div class="userDest" onclick="focusUserDest(this);"><input type="hidden" name="'+ trim(toAdd) +'" class="hiddenuser" value="'+trim(toAdd)+'" />' + trim(name) + '</div>';
 		}
 		var dests = document.getElementById('selectDest').options;
 		for (var i = 0 ; i < dests.length ; i++)
@@ -677,7 +677,7 @@
 		var opt=document.createElement("option");
 		var text=document.createTextNode(toRemove[0].innerText);
 		var inserted = false;
-		opt.setAttribute("value", toRemove[0].innerText);
+		opt.setAttribute("value", toRemove[0].getElementsByClassName('hiddenuser')[0].value);
 		opt.appendChild(text);
 		
 		var dests = document.getElementById('selectDest').options;
@@ -777,9 +777,9 @@
 	{
 		var newDestID = document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex].value;
 		var newDestLbl = document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex].innerText;
-		document.getElementById('finalDest').innerHTML += '<input type="hidden" class="hiddenuser" value="'+newDestID+'" /><div class="userDest" onclick="focusUserDest(this);">'+newDestLbl+'</div>';
+		document.getElementById('finalDest').innerHTML += '<div class="userDest" onclick="focusUserDest(this);"><input type="hidden" class="hiddenuser" value="'+newDestID+'" />'+newDestLbl+'</div>';
 		document.getElementById('selectnewdest').removeChild(document.getElementById('selectnewdest').options[document.getElementById('selectnewdest').selectedIndex]);
-		updateNewDestUsers();
+		refreshHiddenLists();
 	}
 	//Retire un destinataire
 	function rmvNewDest()
@@ -788,7 +788,7 @@
 		var opt=document.createElement("option");
 		var text=document.createTextNode(toRemove[0].innerText);
 		var inserted = false;
-		opt.setAttribute("value", toRemove[0].innerText);
+		opt.setAttribute("value", toRemove[0].getElementsByClassName('hiddenuser')[0].value);
 		opt.appendChild(text);
 		
 		var dests = document.getElementById('selectnewdest').options;
@@ -805,16 +805,16 @@
 			document.getElementById('selectnewdest').appendChild(opt);
 		}
 		document.getElementById('finalDest').removeChild(toRemove[0]);
-		updateNewDestUsers();
+		refreshHiddenLists();
 	}
 	//Ajoute un utilisateur affecté
 	function addNewAffc()
 	{
 		var newDestID = document.getElementById('selectnewaffc').options[document.getElementById('selectnewaffc').selectedIndex].value;
 		var newDestLbl = document.getElementById('selectnewaffc').options[document.getElementById('selectnewaffc').selectedIndex].innerText;
-		document.getElementById('finalAffc').innerHTML += '<input type="hidden" class="hiddenuseraffc" value="'+newDestID+'" /><div class="userAffc" onclick="focusUserAffc(this);">'+newDestLbl+'</div>';
+		document.getElementById('finalAffc').innerHTML += '<div class="userAffc" onclick="focusUserAffc(this);"><input type="hidden" class="hiddenuseraffc" value="'+newDestID+'" />'+newDestLbl+'</div>';
 		document.getElementById('selectnewaffc').removeChild(document.getElementById('selectnewaffc').options[document.getElementById('selectnewaffc').selectedIndex]);
-		updateNewAffcUsers();
+		refreshHiddenLists();
 	}
 	//Retire un utilisateur affecté
 	function rmvNewAffc()
@@ -823,7 +823,7 @@
 		var opt=document.createElement("option");
 		var text=document.createTextNode(toRemove[0].innerText);
 		var inserted = false;
-		opt.setAttribute("value", toRemove[0].innerText);
+		opt.setAttribute("value", toRemove[0].getElementsByClassName('hiddenuseraffc')[0].value);
 		opt.appendChild(text);
 		
 		var dests = document.getElementById('selectnewaffc').options;
@@ -840,16 +840,16 @@
 			document.getElementById('selectnewaffc').appendChild(opt);
 		}
 		document.getElementById('finalAffc').removeChild(toRemove[0]);
-		updateNewAffcUsers();
+		refreshHiddenLists();
 	}
 	//Ajoute un patch
 	function addNewPatc()
 	{
 		var newDestID = document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex].value;
 		var newDestLbl = document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex].innerText;
-		document.getElementById('finalPatc').innerHTML += '<input type="hidden" class="hiddenpatc" value="'+newDestID+'" /><div class="patcAffc" onclick="focusPatcAffc(this);">'+newDestLbl+'</div>';
+		document.getElementById('finalPatc').innerHTML += '<div class="patcAffc" onclick="focusPatcAffc(this);"><input type="hidden" class="hiddenpatc" value="'+newDestID+'" />'+newDestLbl+'</div>';
 		document.getElementById('patcfilter').removeChild(document.getElementById('patcfilter').options[document.getElementById('patcfilter').selectedIndex]);
-		updateNewAffcPatcs();
+		refreshHiddenLists();
 	}
 	//Retire un patch
 	function rmvNewPatc()
@@ -858,7 +858,7 @@
 		var opt=document.createElement("option");
 		var text=document.createTextNode(toRemove[0].innerText);
 		var inserted = false;
-		opt.setAttribute("value", toRemove[0].innerText);
+		opt.setAttribute("value", toRemove[0].getElementsByClassName('hiddenpatc')[0].value);
 		opt.appendChild(text);
 		
 		var dests = document.getElementById('patcfilter').options;
@@ -875,7 +875,7 @@
 			document.getElementById('patcfilter').appendChild(opt);
 		}
 		document.getElementById('finalPatc').removeChild(toRemove[0]);
-		updateNewAffcPatcs();
+		refreshHiddenLists();
 	}
 	//Gère l'affichage de sélection d'un utilisateur dans la liste des affcs
 	function focusPatcAffc(u)
@@ -913,7 +913,7 @@
 	{
 		var lst = document.getElementById('finalPatc');
 		lst.innerHTML = '';
-		updateNewAffcPatcs();
+		refreshHiddenLists();
 	}
 	//Remplit le champ de type hidden pour traitement des destinataires en DB
 	function updateNewDestUsers()
@@ -951,7 +951,7 @@
 		str = str.substring(0, str.length-1);
 		document.getElementById('newlistpatc').value = str;
 	}
-	//
+	//Vérifie la validité du formulaire avant de transmettre les modifs en DB
 	function validEditTask()
 	{
 		var isValid = true;
@@ -971,5 +971,12 @@
 		}
 		
 		return isValid;
+	}
+	//Met à jour les champs masqués des listes dest/affc/patc
+	function refreshHiddenLists()
+	{
+		updateNewDestUsers();
+		updateNewAffcUsers();
+		updateNewAffcPatcs();		
 	}
 </script>

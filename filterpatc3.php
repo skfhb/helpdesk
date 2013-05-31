@@ -19,15 +19,15 @@ $c = openConnection();
 
 	if (isset($_POST['codapp']) && $_POST['codapp'] != '' && $_POST['codapp'] != 'all')
 	{
-		$patchs = execSQL($c, 'SELECT * FROM TAMGPATC WHERE CODAPP = '.$_POST['codapp']);
+		$patchs = execSQL($c, 'SELECT * FROM TAMGPATC WHERE CODAPP = '.$_POST['codapp'].' AND CODPATC NOT IN (SELECT CODPATC FROM TAMGPATA WHERE CODTASK = '.$_GET['id'].')');
 	}
 	elseif (isset($_GET['codapp']) && $_GET['codapp'] != '' && $_GET['codapp'] != 'all')
 	{
-		$patchs = execSQL($c, 'SELECT * FROM TAMGPATC WHERE CODAPP = '.$_GET['codapp']);
+		$patchs = execSQL($c, 'SELECT * FROM TAMGPATC WHERE CODAPP = '.$_GET['codapp'].' AND CODPATC NOT IN (SELECT CODPATC FROM TAMGPATA WHERE CODTASK = '.$_GET['id'].')');
 	}
 	else
 	{
-		$patchs = execSQL($c, 'SELECT * FROM TAMGPATC');
+		$patchs = execSQL($c, 'SELECT * FROM TAMGPATC WHERE CODPATC NOT IN (SELECT CODPATC FROM TAMGPATA WHERE CODTASK = '.$_GET['id'].')');
 	}
 	$nbPatchs = getNumRows($patchs);
 	odbc_fetch_row($patchs, 0);
