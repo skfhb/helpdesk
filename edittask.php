@@ -89,21 +89,23 @@
 				$user_asker = odbc_result($asker, 'NAMUSER');
 			}
 			//On fait le lien avec les utilisateurs pour obtenir les noms des destinataires
-			$sql = 'SELECT NAMUSER FROM TAMGUSER WHERE CODUSER IN (SELECT CODUSER FROM TAMGDEST WHERE CODTASK = '.$task_ID.')';
+			$sql = 'SELECT CODUSER, NAMUSER FROM TAMGUSER WHERE CODUSER IN (SELECT CODUSER FROM TAMGDEST WHERE CODTASK = '.$task_ID.')';
 			$dests = execSQL($c, $sql);
 			$nbDest = 0;
 			while (odbc_fetch_row($dests))
 			{
 				$user_dest[$nbDest] = odbc_result($dests, 'NAMUSER');
+				$user_dest_id[$nbDest] = odbc_result($dests, 'CODUSER');
 				$nbDest++;
 			}
 			//On fait le lien avec les utilisateurs pour obtenir les noms des personnes chargées d'effectuer la tâche
-			$sql = 'SELECT NAMUSER FROM TAMGUSER WHERE CODUSER IN (SELECT CODUSER FROM TAMGAFFC WHERE CODTASK = '.$task_ID.')';
+			$sql = 'SELECT CODUSER, NAMUSER FROM TAMGUSER WHERE CODUSER IN (SELECT CODUSER FROM TAMGAFFC WHERE CODTASK = '.$task_ID.')';
 			$affcs = execSQL($c, $sql);
 			$nbAffc = 0;
 			while (odbc_fetch_row($affcs))
 			{
 				$user_affc[$nbAffc] = odbc_result($affcs, 'NAMUSER');
+				$user_affc_id[$nbAffc] = odbc_result($affcs, 'CODUSER');
 				$nbAffc++;
 			}
 			//On fait le lien avec les utilisateurs et les modifs pour obtenir le nom du dernier utilisateur ayant modifié la tâche, ainsi que la date
@@ -128,13 +130,14 @@
 				//On initialise la variable comptant les patchs de cette appli concernés
 				$app[$nbApp]['nbPatch'] = 0;
 				//On récupère les patchs en question
-				$sql = 'SELECT NAMPATC FROM TAMGPATC WHERE CODAPP IN (SELECT CODAPP FROM TAMGAPPL WHERE NAMAPP = \''.$app[$nbApp]['name'].'\') AND CODPATC IN (SELECT CODPATC FROM TAMGPATA WHERE CODTASK = '.$task_ID.')';
+				$sql = 'SELECT CODPATC, NAMPATC FROM TAMGPATC WHERE CODAPP IN (SELECT CODAPP FROM TAMGAPPL WHERE NAMAPP = \''.$app[$nbApp]['name'].'\') AND CODPATC IN (SELECT CODPATC FROM TAMGPATA WHERE CODTASK = '.$task_ID.')';
 				$patchs = execSQL($c, $sql);
 				//Pour chaque patch
 				while (odbc_fetch_row($patchs))
 				{
 					//On stocke le nom du patch dans un tableau héritant de l'appli
 					$app[$nbApp][$app[$nbApp]['nbPatch']] = odbc_result($patchs, 'NAMPATC');
+					$patc[$app[$nbApp]['nbPatch']] = odbc_result($patchs, 'CODPATC');
 					//On ajoute 1 au nombre de patch recensés
 					$app[$nbApp]['nbPatch']++;
 				}	
@@ -182,7 +185,7 @@
 	<?php
 		if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 		{
-			echo '<div id="validmodtask" onclick="alert(\'Prochainement\');">';
+			echo '<div id="validmodtask" onclick="updateNewDestUsers();updateNewAffcUsers();updateNewAffcPatcs();alert(\'Prochainement\');">';
 			echo 'Enregistrer les modifications';
 			echo '</div>';
 		}
@@ -233,7 +236,7 @@
 			echo '<tr><td><div id="finalDest">';
 			while ($nbDest > 0)
 			{
-				echo '<div class="userDest" onclick="focusUserDest(this);">'.$user_dest[$nbDest-1].'</div>';
+				echo '<input type="hidden" class="hiddenuser" value="'.$user_dest_id[$nbDest-1].'" /><div class="userDest" onclick="focusUserDest(this);">'.$user_dest[$nbDest-1].'</div>';
 				$nbDest--;
 			}
 			echo '</div>';
@@ -266,7 +269,7 @@
 			echo '<div id="finalAffc">';
 			while ($nbAffc > 0)
 			{
-				echo '<div class="userAffc" onclick="focusUserAffc(this);">'.$user_affc[$nbAffc-1].'</div>';
+				echo '<input type="hidden" class="hiddenuseraffc" value="'.$user_affc_id[$nbAffc-1].'" /><div class="userAffc" onclick="focusUserAffc(this);">'.$user_affc[$nbAffc-1].'</div>';
 				$nbAffc--;
 			}
 			echo '</div>';
@@ -318,7 +321,11 @@
 			echo '</select>';
 			echo '</td><td>';
 			echo '<div id="finalPatc">';
-			
+			while ($app[0]['nbPatch'] > 0)
+			{
+				echo '<input type="hidden" class="hiddenpatc" value="'.$patc[$app[0]['nbPatch']-1].'" /><div class="userAffc" onclick="focusUserAffc(this);">'.$app[0][$app[0]['nbPatch']-1].'</div>';
+				$app[0]['nbPatch']--;
+			}
 			echo '</div>';
 			echo '<div id="filterpatc">';
 			$_GET['codapp'] = $app[0]['id'];

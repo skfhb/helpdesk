@@ -37,7 +37,6 @@ $c = openConnection();
 		echo '<img src="resources/style/plus.png" alt="+" style="cursor:pointer;" width="16" height="16" onclick="addNewPatc();" />';
 		echo '&nbsp;';
 		echo '<select id="patcfilter">';
-		echo '<option value="none" id="filteroptall"></option>';
 		//Rempli le select
 		while (odbc_fetch_row($patchs))
 		{
