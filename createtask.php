@@ -11,13 +11,12 @@
 	
 	try
 	{
+		//Si warning, le gérer par la fonction "warning_handler"
+		set_error_handler("warning_handler", E_WARNING);
 		if(session_id() == '')
 		{
 			session_start();
 		}
-		
-		//Si warning, le gérer par la fonction "warning_handler"
-		set_error_handler("warning_handler", E_WARNING);
 		
 		//envoyer le header
 		header('Content-Type: text/html; charset=iso-8859-1');
@@ -57,7 +56,7 @@
 			{
 				echo '<img src="resources/style/lnk.png" width="16" height="16" />';
 				echo 'Liée à la tâche n° : ';
-				echo '<input type="text" name="taskpart" id="taskpart" onkeypress="verifTaskExists();" />';
+				echo '<input type="text" name="taskpart" id="taskpart" onkeyup="verifTaskExists();" onkeypress="verifTaskExists();" />';
 				echo '<img src="resources/statuts/all.png" id="isTaskPartOk" width="16" height="16" />';
 				echo '<br />';
 				echo '<br />';

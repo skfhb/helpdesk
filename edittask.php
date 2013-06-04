@@ -10,13 +10,13 @@
 	
 	try
 	{
+		//Si warning, le gérer par la fonction "warning_handler"
+		set_error_handler("warning_handler", E_WARNING);
+		
 		if(session_id() == '')
 		{
 			session_start();
 		}
-		
-		//Si warning, le gérer par la fonction "warning_handler"
-		set_error_handler("warning_handler", E_WARNING);
 		
 		//envoyer le header
 		header('Content-Type: text/html; charset=iso-8859-1');

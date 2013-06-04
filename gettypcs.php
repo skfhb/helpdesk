@@ -7,16 +7,37 @@
 // 	Date 		: 15/02/2013							      					//
 //------------------------------------------------------------------------------//
 //Dernière modif le 15/02/2013 par HB
-if(session_id() == '')
-{
-	session_start();
-}
+	try
+	{
+	
+		//Si warning, le gérer par la fonction "warning_handler"
+		set_error_handler("warning_handler", E_WARNING);
+		
+		if(session_id() == '')
+		{
+			session_start();
+		}
+		
+		
+		
+		//envoyer le header
+		header('Content-Type: text/html; charset=iso-8859-1');
+	}
+	catch (Exception $e)
+	{
+		//Rien à faire, la session a juste déjà été lancée
+	}
+	//Manage le warning du header déjà envoyé
+	function warning_handler($errno, $errstr) 
+	{ 
+			//Rien à faire, le header est juste déjà passé
+	}
 	
 	//Si on utilise pas la page en include
 	if (isset($_POST['option']) && $_POST['option'] != "")
 	{
 		header('Content-Type: text/html; charset=iso-8859-1');
-		//- la définition des constantes de l'ensemble de l'typccation
+		//- la définition des constantes de l'ensemble de l'application
 		include("include/cst.php");
 		//- la gestion de la couche d'accès aux données
 		include("include/dal.php");

@@ -10,15 +10,24 @@
 
 	try
 	{
+		//Si warning, le gérer par la fonction "warning_handler"
+		set_error_handler("warning_handler", E_WARNING);
 		if(session_id() == '')
 		{
 			session_start();
 		}
-
+		
+		//envoyer le header
+		header('Content-Type: text/html; charset=iso-8859-1');
 	}
 	catch (Exception $e)
 	{
-		//Rien à faire, la session et le header ont juste déjà été lancés
+		//Rien à faire, la session a juste déjà été lancée
+	}
+	//Manage le warning du header déjà envoyé
+	function warning_handler($errno, $errstr) 
+	{ 
+			//Rien à faire, le header est juste déjà passé
 	}
 
 //- la définition des constantes de l'ensemble de l'application
