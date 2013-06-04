@@ -7,23 +7,7 @@
 // 	Date 		: 08/03/2013							     	 //
 //---------------------------------------------------------------//
 //Dernière modif le 08/03/2013 par HB
-	try
-	{
-		//Si warning, le gérer par la fonction "warning_handler"
-		set_error_handler("warning_handler", E_WARNING);
-		
-		if(session_id() == '')
-		{
-			session_start();
-		}
-		
-		//envoyer le header
-		header('Content-Type: text/html; charset=iso-8859-1');
-	}
-	catch (Exception $e)
-	{
-		//Rien à faire, la session a juste déjà été lancée
-	}
+	
 	//Manage le warning du header déjà envoyé
 	if (!function_exists('warning_handler'))
 	{
@@ -32,6 +16,22 @@
 				//Rien à faire, le header est juste déjà passé
 		}
 	}
+	try
+	{
+		//Si warning, le gérer par la fonction "warning_handler"
+		set_error_handler("warning_handler", E_WARNING);
+		//envoyer le header
+		header('Content-Type: text/html; charset=iso-8859-1');
+		if(session_id() == '')
+		{
+			session_start();
+		}
+	}
+	catch (Exception $e)
+	{
+		//Rien à faire, la session a juste déjà été lancée
+	}
+	
 	//- la définition des constantes de l'ensemble de l'application
 	require_once("include/cst.php");
 	//- la gestion de la couche d'accès aux données
@@ -56,7 +56,7 @@
 	}
 		$tasks = execSQL($c, $sqltask);
 		$parite = 'impair';
-		echo '<div class="headertaskhead"><div class="headerelement" style="width:32px;">&nbsp;</div><div class="headerelement" style="width:100px;"><b>Code tâche</b></div><div class="headerelement" style="width:50px;"><b>Urgent</b></div><div class="headerelement" style="width:150px;"><b>Type</b></div><div class="headerelement" style="width:75px;"><b>Statut</b></div><div class="headerelement" style="text-align:left;width:600px;"><b>Intitulé tâche</b></div></div>';
+		echo '<div class="headertaskhead"><div class="headerelement" style="width:32px;">&nbsp;</div><div class="headerelement" style="width:100px;"><b>Code tâche</b></div><div class="headerelement" style="width:50px;"><b>Urgent</b></div><div class="headerelement" style="width:150px;"><b>Type</b></div><div class="headerelement" style="width:75px;"><b>Statut</b></div><div class="headerelement" style="text-align:left;width:400px;"><b>Intitulé tâche</b></div></div>';
 		echo '<div class="sortablecontainer">';
 		while (odbc_fetch_row($tasks))
 		{
@@ -77,13 +77,13 @@
 			}
 			echo '<div class="headerelement" style="width:150px;">'.odbc_result($types, 'LBLTYPT').'</div>';
 			echo '<div class="headerelement" style="width:75px;"><img src="'._IMG_STAT.odbc_result($statuts, 'CODSTS').'.png" alt="" title="'.trim(odbc_result($statuts, 'LBLSTS')).'" width="'._IMG_STAT_WIDTH.'" height="'._IMG_STAT_HEIGHT.'" /></div>';
-			if (strlen(trim(odbc_result($tasks, 'LBLTASK'))) > 75)
+			if (strlen(trim(odbc_result($tasks, 'LBLTASK'))) > 50)
 			{
-				echo '<div class="headerelement" title="'.trim(odbc_result($tasks, 'LBLTASK')).'" onmouseover="displayToolTip();" style="text-align:left;width:600px;">'.substr(odbc_result($tasks, 'LBLTASK'), 0, 73).'...</div>';
+				echo '<div class="headerelement" title="'.trim(odbc_result($tasks, 'LBLTASK')).'" onmouseover="displayToolTip();" style="text-align:left;width:400px;">'.substr(odbc_result($tasks, 'LBLTASK'), 0, 48).'...</div>';
 			}
 			else
 			{
-				echo '<div class="headerelement" style="text-align:left;width:600px;">'.odbc_result($tasks, 'LBLTASK').'</div>';
+				echo '<div class="headerelement" style="text-align:left;width:400px;">'.odbc_result($tasks, 'LBLTASK').'</div>';
 			}
 			echo '</div>';
 			if ($parite == 'impair')
