@@ -20,18 +20,19 @@
 	
 	//Ouverture connexion à la DB
 	$c = openConnection();	
-	
-	//Récup ID du dernier statut
-	$getMaxID = execSQL($c, 'SELECT MAX(CODSTS) FROM TAMGSTAT');
-	while (odbc_fetch_row($getMaxID))
+	if (isset($_POST['newstatutname']))
 	{
-		$maxID = odbc_result($getMaxID, 1)+1;
+		//Récup ID du dernier statut
+		$getMaxID = execSQL($c, 'SELECT MAX(CODSTS) FROM TAMGSTAT');
+		while (odbc_fetch_row($getMaxID))
+		{
+			$maxID = odbc_result($getMaxID, 1)+1;
+		}
+		
+		//Insert en DB
+		$stmt = odbc_prepare($c, 'INSERT INTO TAMGSTAT (CODSTS, LBLSTS) VALUES (?, ?)');
+		$res = odbc_execute($stmt, array($maxID, $_POST['newstatutname']));
 	}
-	
-	//Insert en DB
-	$stmt = odbc_prepare($c, 'INSERT INTO TAMGSTAT (CODSTS, LBLSTS) VALUES (?, ?)');
-	$res = odbc_execute($stmt, array($maxID, $_POST['newstatutname']));
-	
 	//En plus, si on a reçu le fichier image
 	if(isset($_FILES['newstatutimg']))
 	{ 
@@ -45,12 +46,16 @@
 		}
 		else
 		{
-			?>
-			<script>alert('Seuls les fichiers PNG sont acceptés');</script>
-			<?php
+			echo '<p onload="alert(\'Merci de saisir un fichier .png\');"></p>';
 		}
 	}
-	
+	elseif(isset($_FILES['inputPJ']))
+	{
+		$dossier = 'upload/Temp'.$_POST['idtask'];
+		mkdir($dossier);
+		$fichier = $_FILES['inputPJ']['name'];
+		move_uploaded_file($_FILES['inputPJ']['tmp_name'], $dossier.'/'.$fichier);
+	}
 	//Fermeture connexion
 	closeConnection($c);
 ?>

@@ -233,19 +233,15 @@
 			$sqlfile = 'SELECT CODTASK, CODUSER, CODTYPC, TSTPCOM, NUMLGNE, FILECOM FROM TAMGFILE WHERE CODTASK = '.$task_ID.' AND NUMLGNE = 1 ORDER BY TSTPCOM';
 			//Initialisation index du tableau des commentaires
 			$i = 0;
-			
 			$comts = execSQL($c, $sqlcomt);
 			$files = execSQL($c, $sqlfile);
-			
 			//Récup du nombre de commentaires texte
 			$countComts = getNumRows($comts);
 			//Récup du nombre de commentaires fichiers
 			$countFiles = getNumRows($files);
-			
 			//Remise en place du curseur sur premiers enregs
 			odbc_fetch_row($comts, 1);
 			odbc_fetch_row($files, 1);
-			
 			//Numéro du record texte lu
 			$indexComts = 0;
 			//Numéro du record fichier lu
@@ -258,12 +254,23 @@
 				//Tant qu'on arrive pas en fin de fichier de l'une des deux tables
 				while (($countComts != $indexComts) && ($countFiles != $indexFiles))
 				{
+					if ((strtotime(odbc_result($comts, 'TSTPCOM')) - strtotime(odbc_result($files, 'TSTPCOM'))) <= 60)
+					{
+						if (strtotime(odbc_result($comts, 'TSTPCOM')) < strtotime(odbc_result($files, 'TSTPCOM')))
+						{
+							$tstptoqry = odbc_result($files, 'TSTPCOM');
+						}
+						else
+						{
+							$tstptoqry = odbc_result($comts, 'TSTPCOM');
+						}
+					}
 					//On récupère les commentaires en tant qu'objets pour chacun des enregs
-					$tempComt = new comment(odbc_result($comts, 'CODTASK'), odbc_result($comts, 'CODUSER'), odbc_result($comts, 'CODTYPC'), odbc_result($comts, 'TSTPCOM'));
-					$tempFile = new comment(odbc_result($files, 'CODTASK'), odbc_result($files, 'CODUSER'), odbc_result($files, 'CODTYPC'), odbc_result($files, 'TSTPCOM'));
+					$tempComt = new comment(odbc_result($comts, 'CODTASK'), odbc_result($comts, 'CODUSER'), odbc_result($comts, 'CODTYPC'), $tstptoqry);
+					$tempFile = new comment(odbc_result($files, 'CODTASK'), odbc_result($files, 'CODUSER'), odbc_result($files, 'CODTYPC'), $tstptoqry);
 					//Si le commentaire "texte" est plus vieux que le commentaire "fichier"
 					if (strtotime($tempComt->getTstp()) < strtotime($tempFile->getTstp()))
-					{
+					{	
 						//Et si des commentaires ont déjà été affichés
 						if (isset($comments))
 						{
@@ -283,6 +290,12 @@
 							$alreadyDisplayed = false;
 							$i++;
 							odbc_fetch_row($comts);
+							$indexComts++;
+						}
+						else
+						{
+							odbc_fetch_row($comts);
+							$alreadyDisplayed = false;
 							$indexComts++;
 						}
 					}
@@ -310,8 +323,15 @@
 							odbc_fetch_row($files);
 							$indexFiles++;
 						}
+						else
+						{
+							odbc_fetch_row($files);
+							$alreadyDisplayed = false;
+							$indexFiles++;
+						}
 					}
 				}
+
 				//À la fin, s'il reste des commentaires à afficher en "texte"
 				while ($countComts != $indexComts)
 				{
@@ -366,7 +386,6 @@
 					odbc_fetch_row($files);
 					$indexFiles++;
 				}
-				
 				//Finalement, on affiche tous les commentaires dans l'ordre à partir du tableau qu'on a rempli
 				for ($i = 0 ; $i < count($comments) ; $i++)
 				{
@@ -381,6 +400,10 @@
 			else
 			{
 				echo '<font style="color:#FFFFFF;">Aucun commentaire</font>';
+			}
+			if (isset($_SESSION['login']))
+			{
+				include('createcmt.php');
 			}
 		?>
 	</div>

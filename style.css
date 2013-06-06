@@ -18,6 +18,16 @@ body
 	background-repeat : repeat-x;
 }
 
+textarea
+{
+	resize : none;
+	padding : 5px;
+	border : 1px #0066D0 solid;
+	-webkit-border-radius : 20px;
+	-moz-border-radius : 20px;
+	border-radius : 20px;
+}
+
 /* IDs */
 
 #header
@@ -262,7 +272,51 @@ body
 	border-radius : 20px;
 }
 
+#cmtPJ
+{
+	border : 1px black solid;
+	padding : 5px;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
 /* Classes */
+
+.designFF input[type="file"]
+{
+	-moz-opacity:0;
+	filter:alpha(opacity: 0);
+	opacity: 0;
+	border : 2px #0066D0 solid;
+	-webkit-border-radius : 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+}
+
+.designFF
+{
+	background-image:url('resources/style/join.png');
+	background-size: 140px 20px;
+	border : 1px grey solid;
+	width:140px;
+	height:20px;
+	display:block;
+	-webkit-border-radius : 10px;
+	-moz-border-radius : 10px;
+	border-radius : 10px;
+}
+
+.addCmt
+{
+	margin-top : 20px;
+	padding : 5px;
+	background-color : #FFFFFF;
+	border : 2px #0066D0 solid;
+	-webkit-border-radius : 20px;
+	-moz-border-radius : 20px;
+	border-radius : 20px;
+}
 
 .toollisttask
 {

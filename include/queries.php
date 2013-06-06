@@ -336,7 +336,23 @@
 			alert(parm);
 		}
 	}
-	
+	//-------------COMMENTAIRES-----------------
+	//Gère l'ajout d'une pièce jointe : l'envoie par POST à fileUpload.php
+	function newPJ()
+	{
+		document.getElementById('pjForm').submit();
+		var displayedLst = document.getElementById('cmtPJ').innerText;
+		if (displayedLst == 'Pas de pièce jointe')
+		{
+			document.getElementById('cmtPJ').innerText = '';
+		}
+		document.getElementById('cmtPJ').innerHTML += '&bull;&nbsp;'+document.getElementById('inputPJ').value.substr(12) + '<br />';
+	}
+	//Gère l'ajout du commentaire
+	function validCmt()
+	{
+		document.getElementById('insertCmtForm').submit();
+	}
 	//----------------STATUTS-------------------	
 	//Refresh affichage des statuts d'après DB
 	function loadStatuts()
@@ -351,7 +367,7 @@
 	//Ajoute box de saisie de nom de statut
 	function newStatut()
 	{
-		document.getElementById('newstatut').innerHTML = '<iframe style="height:100px;border:0px;" name="fileUpload" seamless></iframe><form id="newStatutForm" enctype="multipart/form-data" action="fileUpload.php" method="post" target="fileUpload"><input type="text" name="newstatutname" id="newstatutname" /><input type="file" name="newstatutimg" id="newstatutimg" /><input type="submit" id="newstatutvalid" value="OK" onclick="saveNewStatut()" /></form><font style="color:#FF0000;">Veillez à ce que le chemin de l\'image ne contienne pas d\'espace</font>';
+		document.getElementById('newstatut').innerHTML = '<iframe style="height:1px;border:0px;" name="fileUpload" seamless></iframe><form id="newStatutForm" enctype="multipart/form-data" action="fileUpload.php" method="post" target="fileUpload"><input type="text" name="newstatutname" id="newstatutname" /><input type="file" name="newstatutimg" id="newstatutimg" /><input type="submit" id="newstatutvalid" value="OK" onclick="saveNewStatut()" /></form><font style="color:#FF0000;">Veillez à ce que le chemin de l\'image ne contienne pas d\'espace</font>';
 	}
 	//Envoie les données d'insert d'un nouveau patch
 	function saveNewStatut()
@@ -969,7 +985,6 @@
 		{
 			document.modTask.submit();
 		}
-		
 		return isValid;
 	}
 	//Met à jour les champs masqués des listes dest/affc/patc

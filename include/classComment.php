@@ -56,17 +56,17 @@ class comment
 		$this->_tstp = $tstp;
 		$this->_text = '';
 		$co = openConnection();
-		$sql = 'SELECT CODTASK, CODUSER, CODTYPC, TSTPCOM, NUMLGNC, TXTCOM FROM TAMGCOMT WHERE CODTASK = '.$this->_task.' AND CODUSER = \''.$this->_user.'\' AND CODTYPC = '.$this->_typc.' ORDER BY TSTPCOM';
+		$sql = 'SELECT CODTASK, CODUSER, CODTYPC, TSTPCOM, NUMLGNC, TXTCOM FROM TAMGCOMT WHERE CODTASK = '.$this->_task.' AND CODUSER = \''.$this->_user.'\' AND CODTYPC = '.$this->_typc.' AND TSTPCOM >= \''.$tstp.'\' ORDER BY TSTPCOM';
 		$comments = execSQL($co, $sql);
 		while (odbc_fetch_row($comments))
 		{
-			if ((strtotime(odbc_result($comments, 'TSTPCOM')) - strtotime($this->_tstp)) <= 60)
+			if (abs(strtotime(odbc_result($comments, 'TSTPCOM')) - strtotime($this->_tstp)) <= 60)
 			{
 				$this->_tstp = odbc_result($comments, 'TSTPCOM');
 				$this->_text .= odbc_result($comments, 'TXTCOM');
 			}
 		}
-		$sql = 'SELECT CODTASK, CODUSER, CODTYPC, TSTPCOM, NUMLGNE, FILECOM FROM TAMGFILE WHERE CODTASK = '.$this->_task.' AND CODUSER = \''.$this->_user.'\' AND CODTYPC = '.$this->_typc.' ORDER BY TSTPCOM';
+		$sql = 'SELECT CODTASK, CODUSER, CODTYPC, TSTPCOM, NUMLGNE, FILECOM FROM TAMGFILE WHERE CODTASK = '.$this->_task.' AND CODUSER = \''.$this->_user.'\' AND CODTYPC = '.$this->_typc.' AND TSTPCOM >= \''.$tstp.'\' ORDER BY TSTPCOM';
 		$files = execSQL($co, $sql);
 		$this->_tstp = $tstp;
 		while (odbc_fetch_row($files))
@@ -119,7 +119,7 @@ class comment
 	{
 		$isEquals = true;
 		
-		if (($comment->getTask() != $this->getTask()) || ($comment->getUser() != $this->getUser()) || ($comment->getTypc() != $this->getTypc()) || ($comment->getText() != $this->getText()))
+		if (($comment->getTask() != $this->getTask()) || ($comment->getUser() != $this->getUser()) || ($comment->getTypc() != $this->getTypc()) || ($comment->getTstp() != $this->getTstp()) || ($comment->getText() != $this->getText()))
 		{
 			$isEquals = false;
 		}

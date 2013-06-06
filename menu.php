@@ -28,8 +28,6 @@ if(session_id() == '')
 <?php
 	if (isset($_SESSION['isAdm']) && $_SESSION['isAdm'])
 	{
-		echo '<li class="btn" onclick="loadPage(\'todo.php\')">To-Do List</li>';
-		echo '<br />';
 		echo '<li class="btn" onclick="loadPage(\'usergst.php\')">Gestion des utilisateurs</li>';
 		echo '<br />';
 		echo '<li class="btn" onclick="loadPage(\'statuts.php\')">Statuts</li>';
